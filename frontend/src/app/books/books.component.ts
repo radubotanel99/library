@@ -1,0 +1,162 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IBook } from './books.model';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import { BookService } from '../service/book.service/book.service';
+import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { NzTableComponent, NzTableModule } from 'ng-zorro-antd/table';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { FormsModule } from '@angular/forms';
+import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
+import { CustomButtonComponent } from '../ui.components/custom-button/custom-button.component';
+import { ColumnItem } from '../ui.components/table.column.interface';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { en_US, NzI18nService } from 'ng-zorro-antd/i18n';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { SearchFilterComponent } from "../ui.components/search-filter/search-filter.component";
+import { NzMessageService } from 'ng-zorro-antd/message';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule, HttpClientModule, NzTableModule, NzDropDownModule, FormsModule,
+    NzIconModule, CustomButtonComponent, NzTableComponent, NzDatePickerModule, NzInputModule, SearchFilterComponent],
+  templateUrl: './books.component.html',
+  styleUrl: './books.component.css',
+})
+export class BooksComponent implements OnInit {
+  books: IBook[];
+  searchNumberValue = '';
+  searchNumberVisible = false;
+  dateFilterValue: Date[] = [];
+  dateFilterVisible = false;
+  booksFiltered: IBook[] = [];
+  booksToShow: IBook[] = [];
+  searchedText : string = '';
+
+  constructor(private bookService: BookService, private router: Router, private i18n: NzI18nService, private message: NzMessageService) {
+    this.books = [];
+  }
+
+  ngOnInit() {
+    this.bookService.getBooks().subscribe(books => {
+      this.books = books;
+      this.booksToShow = [...this.books];
+    })
+    this.i18n.setLocale(en_US); 
+  }
+
+  deleteBook(bookId: number): void {
+    this.bookService.deleteBook(bookId).subscribe({
+      next: () => {
+        this.bookService.getBooks().subscribe(books => {
+          this.books = books;
+          this.applyFilters();
+          // this.booksToShow = this.books;
+        });
+      },
+      error: (error: any) => {
+        if (error.status === 400) {
+          this.message.error(error.error.message);
+        } else {
+          this.message.error('An unexpected error occurred. Contact the administrator.');
+        }
+      }
+    });
+  }
+
+  editBook(id: number): void {
+    this.router.navigate(['/edit-book', id]);
+  }
+
+  addBook(): void {
+    this.router.navigate(['/add-book']);
+  }
+
+  searchNumber(): void {
+    this.searchNumberVisible = false;
+    this.applyFilters();
+  }
+
+  resetNumber(): void {
+    this.searchNumberValue = '';
+    this.applyFilters();
+  }
+
+  searchDateFilter(): void {
+    this.dateFilterVisible = false;
+    this.applyFilters();
+  }
+
+  resetDateFilter(): void {
+    this.dateFilterValue = [];
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.booksFiltered = this.books.filter((book: IBook) => {
+      let matches = true;
+      if (this.dateFilterValue.length !== 0) {
+        matches = matches && book.createdAt! >= this.dateFilterValue[0] && book.createdAt! <= this.dateFilterValue[1];
+      }
+      if (this.searchNumberValue !== '') {
+        matches = matches && book.bookNumber === +this.searchNumberValue;
+      }
+      return matches;
+    });
+    this.onChangeSearchText(this.searchedText);
+  }
+
+  onChangeSearchText(result: string): void {
+    result = result.trim().toLowerCase();
+    this.searchedText = result;
+    this.booksToShow = this.booksFiltered.filter((book: IBook) =>
+      book.title.indexOf(result) !== -1 ||
+      book.author.indexOf(result) !== -1 ||
+      book.category.name.indexOf(result) !== -1 ||
+      book.publisher.indexOf(result) !== -1
+    )
+  }
+
+  titleColumn: ColumnItem<IBook> = {
+    name: 'Title',
+    sortOrder: null,
+    sortFn: (a: IBook, b: IBook) => a.title.localeCompare(b.title),
+  }
+
+  authorColumn: ColumnItem<IBook> = {
+    name: 'Author',
+    sortOrder: null,
+    sortFn: (a: IBook, b: IBook) => a.author.localeCompare(b.author),
+  }
+
+  numberColumn: ColumnItem<IBook> = {
+    name: 'Number',
+    sortOrder: null,
+    sortFn: (a: IBook, b: IBook) => a.bookNumber - b.bookNumber,
+  }
+
+  categoryColumn: ColumnItem<IBook> = {
+    name: 'Category',
+    sortOrder: null,
+    sortFn: (a: IBook, b: IBook) => a.category.name.localeCompare(b.category.name),
+  }
+
+  publisherColumn: ColumnItem<IBook> = {
+    name: 'Publisher',
+    sortOrder: null,
+    sortFn: (a: IBook, b: IBook) => a.publisher.localeCompare(b.publisher),
+  }
+
+  priceColumn: ColumnItem<IBook> = {
+    name: 'Price',
+    sortOrder: null,
+    sortFn: (a: IBook, b: IBook) => a.price - b.price,
+  }
+
+  createdAtColumn: ColumnItem<IBook> = {
+    name: 'CreatedAt',
+    sortOrder: null,
+    sortFn: (a: IBook, b: IBook) => a.createdAt.getTime() - b.createdAt.getTime(),
+  }
+}

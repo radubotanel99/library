@@ -1,0 +1,84 @@
+<div class="container">
+    <button type="submit" class="btn btn-primary" (click)="addRent()">
+        Add rent
+    </button>
+
+    <app-search-filter [value]="this.searchedText" (valueChange)="onChangeSearchText($event)"></app-search-filter>
+
+    <nz-table #nzTable [nzData]="this.rentsToShow" [nzSize]="'small'" nzTableLayout="fixed" class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col" 
+                [(nzSortOrder)]="bookColumn.sortOrder!" 
+                [nzSortFn]="bookColumn.sortFn!">
+                  Book</th>
+
+                <th scope="col" 
+                [(nzSortOrder)]="userColumn.sortOrder!" 
+                [nzSortFn]="userColumn.sortFn!">
+                User</th>
+
+                <th scope="col" 
+                [(nzSortOrder)]="stateColumn.sortOrder!" 
+                [nzSortFn]="stateColumn.sortFn!"
+                [nzFilterMultiple]="stateColumn.filterMultiple!"
+                [nzFilters]="stateColumn.listOfFilter!"
+                [nzFilterFn]="stateColumn.filterFn!">
+                  State</th>
+
+                <th scope="col" 
+                [(nzSortOrder)]="createdAtColumn.sortOrder!" 
+                [nzSortFn]="createdAtColumn.sortFn!" nzCustomFilter>
+                    Created
+                    <nz-filter-trigger [(nzVisible)]="this.dateCreatedFilterVisible" [nzDropdownMenu]="createdFilter">
+                        <span nz-icon nzType="search"></span>
+                    </nz-filter-trigger>
+                </th>
+                
+                <th scope="col" 
+                [(nzSortOrder)]="finishedAtColumn.sortOrder!" 
+                [nzSortFn]="finishedAtColumn.sortFn!" nzCustomFilter>
+                    Finished
+                    <nz-filter-trigger [(nzVisible)]="this.dateFinishedFilterVisible" [nzDropdownMenu]="finishedFilter">
+                        <span nz-icon nzType="search"></span>
+                    </nz-filter-trigger>
+                </th>
+
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr scope="row" *ngFor="let rent of nzTable.data">
+                <td>{{ rent.book.title }}</td>
+                <td>{{ rent.user.name }}</td>
+                <td>{{ rent.state }}</td>
+                <td>{{ rent.createdAt | date:'dd-MM-yyyy'}}</td>
+                <td>{{ rent.finishedAt | date:'dd-MM-yyyy'}}</td>
+                <td>
+                    <button *ngIf="rent.state === 'ACTIVE'" (click)="finishRent(rent.id)">Finish</button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <nz-dropdown-menu #createdFilter="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+            <div class="search-box">
+            <nz-range-picker class="rangePicker" [(ngModel)]="this.dateCreatedFilterValue"></nz-range-picker>
+            <button nz-button nzSize="small" nzType="primary" (click)="searchCreatedDateFilter()" class="search-button">Search</button>
+            <button nz-button nzSize="small" (click)="resetCreatedDateFilter()">Reset</button>
+            </div>
+        </div>
+    </nz-dropdown-menu>
+
+    <nz-dropdown-menu #finishedFilter="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+            <div class="search-box">
+            <nz-range-picker class="rangePicker" [(ngModel)]="this.dateFinishedFilterValue"></nz-range-picker>
+            <button nz-button nzSize="small" nzType="primary" (click)="searchFinishedDateFilter()" class="search-button">Search</button>
+            <button nz-button nzSize="small" (click)="resetFinishedDateFilter()">Reset</button>
+            </div>
+        </div>
+    </nz-dropdown-menu>
+
+</div>

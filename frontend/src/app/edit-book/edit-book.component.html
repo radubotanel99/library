@@ -1,0 +1,40 @@
+<div class="container">
+    <h2>{{ isEditMode ? 'Edit Book' : 'Add Book' }}</h2>
+    <form (ngSubmit)="saveBook()">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input [(ngModel)]="book.title" name="title" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input [(ngModel)]="book.author" name="author" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="bookNumber">Book Number</label>
+            <input [(ngModel)]="book.bookNumber" name="bookNumber" type="number" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+
+            <!-- <input [(ngModel)]="book.category.name" name="category" type="text" class="form-control" /> -->
+
+            <select [(ngModel)]="book.category" name="category" class="form-control" id="category" required>
+                <option *ngFor="let category of categories" [ngValue]="category">{{ category.name }}</option>
+            </select>
+        </div>
+        
+        
+
+        <div class="form-group">
+            <label for="publisher">Publisher</label>
+            <input [(ngModel)]="book.publisher" name="publisher" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input [(ngModel)]="book.price" name="price" type="number" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">
+            Save book
+        </button>
+    </form>
+</div>

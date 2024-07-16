@@ -1,0 +1,8 @@
+a {
+    text-decoration: underline;
+}
+
+.button-container {
+    display: flex;
+    gap: 7px; /* Adjust the spacing as needed */
+  }

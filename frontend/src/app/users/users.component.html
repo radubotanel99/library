@@ -1,0 +1,50 @@
+<div class="container">
+    <button type="submit" class="btn btn-primary" (click)="addUser()">
+        Add user
+    </button>
+
+    <app-search-filter (valueChange)="onChangeSearchText($event)"></app-search-filter>
+
+    <nz-table #nzTable [nzData]="this.usersToShow" nzTableLayout="fixed" [nzSize]="'small'" class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+
+                <th scope="col" 
+                [(nzSortOrder)]="nameColumn.sortOrder!" 
+                [nzSortFn]="nameColumn.sortFn!">
+                    Name</th>
+
+                <th scope="col" 
+                [(nzSortOrder)]="emailColumn.sortOrder!" 
+                [nzSortFn]="emailColumn.sortFn!">
+                    Email</th>
+
+                <th scope="col" 
+                [(nzSortOrder)]="addressColumn.sortOrder!" 
+                [nzSortFn]="addressColumn.sortFn!">
+                    Address</th>
+
+                <th scope="col" 
+                [(nzSortOrder)]="phoneColumn.sortOrder!" 
+                [nzSortFn]="phoneColumn.sortFn!">
+                    Phone number</th>
+
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr scope="row" *ngFor="let user of nzTable.data">
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.address }}</td>
+                <td>{{ user.phoneNumber }}</td>
+                <td>
+                    <div class="button-container">
+                        <button (click)="editUser(user.id)">Edit</button>
+                        <button (click)="deleteUser(user.id)">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

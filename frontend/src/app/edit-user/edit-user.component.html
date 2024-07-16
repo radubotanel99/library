@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>{{ isEditMode ? 'Edit User' : 'Add User' }}</h2>
+    <form (ngSubmit)="saveUser()">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input [(ngModel)]="user.name" name="name" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input [(ngModel)]="user.email" name="email" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input [(ngModel)]="user.address" name="address" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input [(ngModel)]="user.phoneNumber" name="phoneNumber" type="number" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">
+            Save user
+        </button>
+    </form>
+</div>
