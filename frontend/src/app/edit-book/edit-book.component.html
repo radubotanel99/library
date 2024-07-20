@@ -16,12 +16,10 @@
             </div>
             <div class="form-group"> 
                 <label for="category">Category</label>
-
-                <!-- <input [(ngModel)]="book.category.name" name="category" type="text" class="form-control" /> -->
-
-                <select [(ngModel)]="book.category" name="category" class="form-control" id="category" required>
-                    <option *ngFor="let category of categories; trackBy: trackByCategory" [selected]="category.name">{{ category.name }}</option>
-                    <!-- [ngValue]="category -->
+                <select [(ngModel)]="book.category.id" name="category" class="form-control" id="category"  required>
+                    <option *ngFor="let category of categories; trackBy: trackByCategory" 
+                        [ngValue]="category.id"
+                        >{{ category.name }}</option>
                 </select>
             </div>
             

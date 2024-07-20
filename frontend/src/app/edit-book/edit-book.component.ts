@@ -42,6 +42,8 @@ export class EditBookComponent implements OnInit {
     this.categoryService.getCategories().subscribe(categories => {
       this.categories = categories;
     })
+
+    
   }
 
   addBook() {

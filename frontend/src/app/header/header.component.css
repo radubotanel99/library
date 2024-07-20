@@ -3,10 +3,10 @@
   background-color: black;
 }
 
-header {
+/* header {
   height: 5vh;
   background-color: black;
-}
+} */
 
 .nav.nav-pills.bg-light {
   background-color: black !important; 
@@ -15,7 +15,7 @@ header {
 .nav.nav-pills.bg-light .nav-link {
   /* color: bisque !important; */
   color: white !important;
-  font-size: medium;
+  font-size: medium; 
   font-weight: bold;
   font-family:'Courier New', Courier, monospace
 }
