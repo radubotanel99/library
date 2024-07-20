@@ -48,7 +48,7 @@ public class SessionFactoryProvider {
 						.addAnnotatedClass(Rent.class) //
 						.buildSessionFactory();
 				
-				init();
+//				init();
 				
 				rentScheduler = new RentScheduler();
 	            scheduler = Executors.newScheduledThreadPool(1);
@@ -58,7 +58,7 @@ public class SessionFactoryProvider {
 	                    scheduler.shutdown();
 	                }
 	            }));
-			} catch (Throwable ex) {	
+			} catch (Throwable ex) {
 				System.err.println("Failed to create sessionFactory object." + ex);
 			}
 		}
@@ -97,7 +97,7 @@ public class SessionFactoryProvider {
 				session.save(rent);
 				
 				
-				for (int i=2; i<=2000; i++) {
+				for (int i=2; i<=200; i++) {
 					book = new Book();
 					book.setTitle("Test" + i);
 					book.setAuthor("Author" + i);

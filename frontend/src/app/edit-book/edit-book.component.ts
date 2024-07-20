@@ -54,8 +54,13 @@ export class EditBookComponent implements OnInit {
 
   saveBook(): void {
     if (this.isEditMode) {
+      console.log(this.book);
       this.handleBookSave(this.bookService.updateBook(this.book));
     } else {
+      // category <select> is biding just category.id, not the category.
+      if (this.book.category && this.book.category.id &&  this.book.category.name === '') {
+        this.book.category = this.categories.find(cat => cat.id === this.book.category.id)!
+      }
       this.handleBookSave(this.bookService.addBook(this.book));
     }
   }
