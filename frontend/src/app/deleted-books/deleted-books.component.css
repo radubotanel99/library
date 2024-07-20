@@ -1,0 +1,51 @@
+a {
+    text-decoration: underline;
+}
+
+.button-container {
+    display: flex;
+    gap: 7px; /* Adjust the spacing as needed */
+  }
+
+[nz-button] {
+  margin-right: 8px;
+  margin-bottom: 12px;
+}
+
+.search-box {
+  padding: 8px;
+}
+
+.search-box input {
+  width: 188px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.search-box button {
+  width: 90px;
+}
+
+.search-button {
+  margin-right: 8px;
+}
+
+.rangePicker {
+  width: 188px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+nz-date-picker {
+  margin: 0 8px 12px 0;
+}
+
+.table table-striped table-hover {
+  margin: 1% !important;
+}
+
+.container {
+  min-width: 87%;
+  max-width: 87%;
+  margin: 0 auto;
+}

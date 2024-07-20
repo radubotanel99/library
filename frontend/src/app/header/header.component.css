@@ -1,67 +1,25 @@
-.container {
-  display: flex;
-  justify-content: space-between;
-  font-size: 24px;
-  margin-bottom: 10px;
-  margin: -3px -8px 0 -8px;
-  padding: 0 8px 5px 8px;
-  border-bottom: 2px solid #818285;
+
+.background {
+  background-color: black;
 }
 
-.left {
-  display: flex;
-  align-items: center;
+header {
+  height: 5vh;
+  background-color: black;
 }
 
-.left * {
-  margin-right: 25px;
+.nav.nav-pills.bg-light {
+  background-color: black !important; 
 }
 
-.logo {
-  height: 65px;
+.nav.nav-pills.bg-light .nav-link {
+  /* color: bisque !important; */
+  color: white !important;
+  font-size: medium;
+  font-weight: bold;
+  font-family:'Courier New', Courier, monospace
 }
 
-.cart {
-  display: flex;
-  position: relative;
-}
-
-.cartCount {
-  position: absolute;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-  top: -7px;
-  right: -15px;
-  border-radius: 25px;
-  background-color: #f590c4;
-  color: white;
-  font-size: 14px;
-}
-
-.cartCount div {
-  margin: auto;
-}
-
-.right {
-  display: flex;
-  align-items: center;
-  margin-right: 25px;
-}
-
-.right * {
-  margin-left: 25px;
-}
-
-.right img {
-  height: 40px;
-  cursor: pointer;
-}
-
-.sign-out {
-  position: absolute;
-  top: 60px;
-  right: 30px;
+.nav.nav-pills.bg-light .nav-link:hover {
+  color: white !important;
 }

@@ -12,11 +12,13 @@ import { ColumnItem } from '../ui.components/table.column.interface';
 import { en_US, NzI18nService } from 'ng-zorro-antd/i18n';
 import { SearchFilterComponent } from "../ui.components/search-filter/search-filter.component";
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
+import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, NzTableModule, NzDropDownModule, FormsModule, NzIconModule, SearchFilterComponent, NzDatePickerModule],
+  imports: [CommonModule, HttpClientModule, NzTableModule, NzDropDownModule, FormsModule, NzIconModule, SearchFilterComponent, NzDatePickerModule, PageTitleComponent, CustomButtonComponent],
   templateUrl: './rents.component.html',
   styleUrl: './rents.component.css'
 })
@@ -28,8 +30,10 @@ export class RentsComponent implements OnInit {
   dateCreatedFilterVisible = false;
   dateFinishedFilterValue: Date[] = [];
   dateFinishedFilterVisible = false;
+  searchNumberValue = '';
+  searchNumberVisible = false;
   searchedText : string = '';
-
+  
   constructor(private rentService: RentService, private router: Router, private i18n: NzI18nService) {
     this.rents = [];
   }
@@ -76,6 +80,16 @@ export class RentsComponent implements OnInit {
     this.applyFilters();
   }
 
+  searchNumber(): void {
+    this.searchNumberVisible = false;
+    this.applyFilters();
+  }
+
+  resetNumber(): void {
+    this.searchNumberValue = '';
+    this.applyFilters();
+  }
+
   applyFilters() {
     this.rentsFiltered = this.rents.filter((rent: IRent) => {
       let matches = true;
@@ -85,17 +99,20 @@ export class RentsComponent implements OnInit {
       if (this.dateCreatedFilterValue.length !== 0) {
         matches = matches && rent.createdAt! >= this.dateCreatedFilterValue[0] && rent.createdAt! <= this.dateCreatedFilterValue[1];
       }
+      if (this.searchNumberValue !== '') {
+        matches = matches && rent.book.bookNumber === +this.searchNumberValue;
+      }
       return matches;
     });
     this.onChangeSearchText(this.searchedText);
   }
 
   onChangeSearchText(result: string): void {
-    result = result.trim().toLowerCase();
+    const searchText = result.trim().toLowerCase();
     this.searchedText = result;
     this.rentsToShow = this.rentsFiltered.filter((rent: IRent) =>
-      rent.book.title.trim().toLowerCase().indexOf(result) !== -1 ||
-      rent.user.name.trim().toLowerCase().indexOf(result) !== -1 
+      (rent.book && rent.book.title && rent.book.title.trim().toLowerCase().indexOf(searchText)) !== -1 ||
+      (rent.user && rent.user.name && rent.user.name.trim().toLowerCase().indexOf(searchText)) !== -1 
     )
   }
 
@@ -111,12 +128,19 @@ export class RentsComponent implements OnInit {
     sortFn: (a: IRent, b: IRent) => a.user.name.localeCompare(b.user.name),
   }
 
+  bookNumberColumn: ColumnItem<IRent> = {
+    name: 'Number',
+    sortOrder: null,
+    sortFn: (a: IRent, b: IRent) => a.book.bookNumber - b.book.bookNumber,
+  }
+
   stateColumn: ColumnItem<IRent> = {
     name: 'State',
     sortOrder: null,
     sortFn: (a: IRent, b: IRent) => a.state.localeCompare(b.state),
     listOfFilter: [
       { text: 'ACTIVE', value: 'ACTIVE' },
+      { text: 'LATE', value: 'LATE'},
       { text: 'FINISHED', value: 'FINISHED' }
     ],
     filterMultiple: false,

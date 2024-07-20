@@ -6,11 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
+import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
 
 @Component({
   selector: 'app-add-user',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, PageTitleComponent, CustomButtonComponent],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.css'
 })

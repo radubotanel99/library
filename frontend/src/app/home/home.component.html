@@ -1,0 +1,11 @@
+
+<div class="homeContainer">
+    <div class="image"></div>
+    <nz-card  [nzBordered]="true" nzTitle="Settings" [nzExtra]="actionSetting" class="custom-card">
+      <app-parameters></app-parameters>
+      <a class="linkClass" (click)="goToDeletedBooks()">Deleted Books</a>
+    </nz-card>
+    <ng-template #actionSetting>
+      <span nz-icon nzType="setting"></span>
+    </ng-template>
+  </div>

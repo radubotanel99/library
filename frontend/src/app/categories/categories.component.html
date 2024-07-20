@@ -1,11 +1,13 @@
 <div class="container">
-    <button type="submit" class="btn btn-primary" (click)="addCategory()">
-        Add category
-    </button>
+
+  <app-page-title [title]="'Categories'"></app-page-title>
     
+    <app-custom-button text="Add category" (click)="addCategory()"></app-custom-button>
+    <app-custom-button text="Export" (click)="exportTable()"></app-custom-button>
     <app-search-filter (valueChange)="onChangeSearchText($event)"></app-search-filter>
 
-    <nz-table #nzTable [nzData]="this.categoriesToShow" [nzSize]="'small'" nzTableLayout="fixed" class="table table-striped table-hover">
+    <nz-table #nzTable [nzData]="this.categoriesToShow" [nzSize]="'small'" nzTableLayout="fixed" class="table table-striped table-hover"
+    [nzPageSize]="100" [nzScroll]="{ y: 'calc(95.5vh - 276px)' }">
         <thead class="table-dark">
           <tr>
             <th scope="col" 
@@ -28,7 +30,11 @@
             <td>
               <div class="button-container">
                 <button (click)="editCategory(category.id)">Edit</button>
-                <button (click)="deleteCategory(category.id)">Delete</button>
+                <button 
+                nz-popconfirm
+                nzPopconfirmTitle="Are you sure?"
+                (nzOnConfirm)="deleteCategory(category.id)">
+                  Delete</button>
               </div>
             </td>
           </tr>

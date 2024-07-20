@@ -1,22 +1,31 @@
 <div class="container">
-    <button type="submit" class="btn btn-primary" (click)="addRent()">
-        Add rent
-    </button>
+    <app-page-title [title]="'Rents'"></app-page-title>
 
+    <app-custom-button text="Add rent" (click)="addRent()"></app-custom-button>
     <app-search-filter [value]="this.searchedText" (valueChange)="onChangeSearchText($event)"></app-search-filter>
 
-    <nz-table #nzTable [nzData]="this.rentsToShow" [nzSize]="'small'" nzTableLayout="fixed" class="table table-striped table-hover">
+    <nz-table #nzTable [nzData]="this.rentsToShow" [nzSize]="'small'" nzTableLayout="fixed" class="table table-striped table-hover"
+    [nzPageSize]="100" [nzScroll]="{ y: 'calc(95.5vh - 276px)' }">
         <thead class="table-dark">
             <tr>
+                <th scope="col" 
+                [(nzSortOrder)]="userColumn.sortOrder!" 
+                [nzSortFn]="userColumn.sortFn!">
+                    User</th>
+
                 <th scope="col" 
                 [(nzSortOrder)]="bookColumn.sortOrder!" 
                 [nzSortFn]="bookColumn.sortFn!">
                   Book</th>
 
                 <th scope="col" 
-                [(nzSortOrder)]="userColumn.sortOrder!" 
-                [nzSortFn]="userColumn.sortFn!">
-                User</th>
+                [(nzSortOrder)]="bookNumberColumn.sortOrder!" 
+                [nzSortFn]="bookNumberColumn.sortFn!" nzCustomFilter>
+                    Book Number
+                    <nz-filter-trigger [(nzVisible)]="searchNumberVisible" [nzActive]="searchNumberValue.length > 0" [nzDropdownMenu]="numberSearch">
+                        <span nz-icon nzType="search"></span>
+                    </nz-filter-trigger>
+                </th>
 
                 <th scope="col" 
                 [(nzSortOrder)]="stateColumn.sortOrder!" 
@@ -31,7 +40,7 @@
                 [nzSortFn]="createdAtColumn.sortFn!" nzCustomFilter>
                     Created
                     <nz-filter-trigger [(nzVisible)]="this.dateCreatedFilterVisible" [nzDropdownMenu]="createdFilter">
-                        <span nz-icon nzType="search"></span>
+                        <span nz-icon nzType="filter"></span>
                     </nz-filter-trigger>
                 </th>
                 
@@ -40,7 +49,7 @@
                 [nzSortFn]="finishedAtColumn.sortFn!" nzCustomFilter>
                     Finished
                     <nz-filter-trigger [(nzVisible)]="this.dateFinishedFilterVisible" [nzDropdownMenu]="finishedFilter">
-                        <span nz-icon nzType="search"></span>
+                        <span nz-icon nzType="filter"></span>
                     </nz-filter-trigger>
                 </th>
 
@@ -49,9 +58,10 @@
         </thead>
         <tbody>
             <tr scope="row" *ngFor="let rent of nzTable.data">
-                <td>{{ rent.book.title }}</td>
                 <td>{{ rent.user.name }}</td>
-                <td>{{ rent.state }}</td>
+                <td>{{ rent.book.title }}</td>
+                <td>{{ rent.book.bookNumber}}</td>
+                <td [ngClass]="{'late-state': rent.state === 'LATE'}">{{ rent.state }}</td>
                 <td>{{ rent.createdAt | date:'dd-MM-yyyy'}}</td>
                 <td>{{ rent.finishedAt | date:'dd-MM-yyyy'}}</td>
                 <td>
@@ -60,6 +70,16 @@
             </tr>
         </tbody>
     </nz-table>
+
+    <nz-dropdown-menu #numberSearch="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input [(ngModel)]="searchNumberValue" type="number" nz-input placeholder="Search number"/>
+            <button nz-button nzSize="small" nzType="primary" (click)="searchNumber()" class="search-button">Search</button>
+            <button nz-button nzSize="small" (click)="resetNumber()">Reset</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
 
     <nz-dropdown-menu #createdFilter="nzDropdownMenu">
         <div class="ant-table-filter-dropdown">

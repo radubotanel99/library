@@ -1,16 +1,18 @@
 <div class="container">
-    <h2>{{ isEditMode ? 'Edit Category' : 'Add Category' }}</h2>
+    <app-page-title [title]="isEditMode ? 'Edit Category' : 'Add Category'"></app-page-title>
     <form (ngSubmit)="saveCategory()">
-        <div class="form-group">
-            <label for="title">Category</label>
-            <input [(ngModel)]="category.name" name="title" type="text" class="form-control" />
+        <div class="mainDiv">
+            <div class="form-group">
+                <label for="title">Category</label>
+                <input [(ngModel)]="category.name" name="title" type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="author">Description</label>
+                <input [(ngModel)]="category.description" name="author" type="text" class="form-control" />
+            </div>
+            <div class="buttonDiv">
+                <app-custom-button text="Save category" (click)="true"></app-custom-button>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="author">Description</label>
-            <input [(ngModel)]="category.description" name="author" type="text" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary">
-            Save category
-        </button>
     </form>
 </div>

@@ -38,11 +38,12 @@ public class BookValidator {
     }
     
     private Response checkDuplicateAdd(Book book) {
-    	return response("There is another book with this number.");	
+    	return response("There is another book with this number.");
     }
     
     private Response checkDuplicateUpdate(Book book, Book sameNumberBook) {
-    	if (book.getId() != sameNumberBook.getId()) {
+    	if (!book.getId().equals(sameNumberBook.getId())) {
+//    	if (book.getId() != sameNumberBook.getId()) {
     		return response("There is another book with this number.");
     	}
     	return null;

@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 import com.ssn.practica.dao.BookDAO;
 import com.ssn.practica.dao.CategoryDAO;
+import com.ssn.practica.dao.ParameterDAO;
 import com.ssn.practica.dao.RentDAO;
 import com.ssn.practica.dao.UserDAO;
 import com.ssn.practica.helpers.GeneralConstants;
@@ -19,6 +20,7 @@ import com.ssn.practica.model.User;
 public class RentValidator {
 	
 	private RentDAO rentDAO = new RentDAO();
+	private ParameterDAO parameterDAO = ParameterDAO.getInstance();;
 
     public Response validateRent(Rent rent) {
         
@@ -36,7 +38,7 @@ public class RentValidator {
         }
         
         List<Rent> rentsByUser = rentDAO.getRentsByUser(rent.getUser().getName());
-        if (!rentsByUser.isEmpty() && rentsByUser.size() >= GeneralConstants.MAX_RENTS_BY_USER) {
+        if (!rentsByUser.isEmpty() && rentsByUser.size() >= parameterDAO.getMaxBooksPerUser()) {
         	return response("This user has too many books already rent");
         }
         

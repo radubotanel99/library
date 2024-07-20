@@ -86,7 +86,7 @@ public class UserDAO {
 
 			@Override
 			protected void executeBusinessLogic(Session session) {
-				List<User> users = session.createQuery("from User where deleted = :isDeleted").setParameter("isDeleted", isDeleted).getResultList();
+				List<User> users = session.createQuery("from User where deleted = :isDeleted order by name").setParameter("isDeleted", isDeleted).getResultList();
 				setReturnValue(users);
 			}
 		}.run();

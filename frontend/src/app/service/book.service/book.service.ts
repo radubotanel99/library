@@ -30,7 +30,7 @@ export class BookService {
   }
 
   updateBook(book: IBook): Observable<IBook> {
-    return this.http.put<IBook>('/api/books', book); 
+    return this.http.put<IBook>('/api/books', book);
   }
 
   getBookById(id: number): Observable<IBook> {

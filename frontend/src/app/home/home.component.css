@@ -1,0 +1,50 @@
+
+ html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; 
+  flex: 1 1 auto;
+}
+
+.linkClass{
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: medium;
+  font-weight: lighter;
+  text-decoration: underline;
+  color: rgb(245, 176, 176);
+}
+
+.image {
+  background-image: url(/assets/images/file.png) !important;
+  background-size: contain; 
+  background-position: left;
+  background-repeat: no-repeat; 
+  min-height: 89vh; 
+  width: 43%;
+  max-width: 70%; 
+  margin-top: 1%;
+  margin-left: 7%; 
+  padding: 0; 
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.homeContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start; 
+}
+
+nz-card {
+  margin-left: 30%;
+  margin-top: 20%;
+  align-self: flex-start;
+  background-color: gray;
+  /* color: white; */
+  width: 15%;
+  /* font-weight: bold; */
+  box-shadow: 0 10px 25px black;
+  border: 5px solid rgba(104,104,105,255);
+}

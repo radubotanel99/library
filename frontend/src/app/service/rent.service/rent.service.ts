@@ -25,14 +25,6 @@ export class RentService {
     }));
   }
 
-  // deleteRent(rentId: number): Observable<void> {
-  //   return this.http.delete<void>(`/api/rents/${rentId}`);
-  // }
-
-  // updateRent(rent: IRent): Observable<IRent> {
-  //   return this.http.put<IRent>('/api/rents', rent); 
-  // }
-
   getRentByState(rentState: string): Observable<IRent> {
     return this.http.get<IRent>(`/api/rents/${rentState}`);
   }

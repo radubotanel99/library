@@ -10,11 +10,13 @@ import { IUser } from '../users/users.model';
 import { createDefaultBook, IBook } from '../books/books.model';
 import { BookService } from '../service/book.service/book.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
+import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
 
 @Component({
   selector: 'app-add-rent',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, PageTitleComponent, CustomButtonComponent],
   templateUrl: './edit-rent.component.html',
   styleUrl: './edit-rent.component.css'
 })

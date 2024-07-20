@@ -27,6 +27,8 @@ public class Category {
 	@OneToMany(mappedBy = "category")
 	private List<Book> books;
 	
+	private boolean deleted;
+	
 	public Category() {
 	}
 
@@ -66,6 +68,14 @@ public class Category {
 		}
 	}
 
+	public boolean isDeletd() {
+		return deleted;
+	}
+	
+	public void setDeletd(boolean deletd) {
+		this.deleted = deletd;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -82,5 +92,4 @@ public class Category {
 		Category other = (Category) obj;
 		return Objects.equals(id, other.id);
 	}
-
 }

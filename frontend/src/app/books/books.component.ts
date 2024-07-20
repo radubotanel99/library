@@ -15,12 +15,15 @@ import { en_US, NzI18nService } from 'ng-zorro-antd/i18n';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { SearchFilterComponent } from "../ui.components/search-filter/search-filter.component";
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { ExcelService } from '../helpers/excel-service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, HttpClientModule, NzTableModule, NzDropDownModule, FormsModule,
-    NzIconModule, CustomButtonComponent, NzTableComponent, NzDatePickerModule, NzInputModule, SearchFilterComponent],
+    NzIconModule, CustomButtonComponent, NzTableComponent, NzDatePickerModule, NzInputModule, SearchFilterComponent, PageTitleComponent, NzPopconfirmModule],
   templateUrl: './books.component.html',
   styleUrl: './books.component.css',
 })
@@ -41,6 +44,7 @@ export class BooksComponent implements OnInit {
   ngOnInit() {
     this.bookService.getBooks().subscribe(books => {
       this.books = books;
+      this.booksFiltered = [...this.books]
       this.booksToShow = [...this.books];
     })
     this.i18n.setLocale(en_US); 
@@ -49,10 +53,10 @@ export class BooksComponent implements OnInit {
   deleteBook(bookId: number): void {
     this.bookService.deleteBook(bookId).subscribe({
       next: () => {
+        this.message.success("Successfully deleted.");
         this.bookService.getBooks().subscribe(books => {
           this.books = books;
           this.applyFilters();
-          // this.booksToShow = this.books;
         });
       },
       error: (error: any) => {
@@ -108,14 +112,19 @@ export class BooksComponent implements OnInit {
   }
 
   onChangeSearchText(result: string): void {
-    result = result.trim().toLowerCase();
+    const searchText = result.trim().toLowerCase();
     this.searchedText = result;
     this.booksToShow = this.booksFiltered.filter((book: IBook) =>
-      book.title.indexOf(result) !== -1 ||
-      book.author.indexOf(result) !== -1 ||
-      book.category.name.indexOf(result) !== -1 ||
-      book.publisher.indexOf(result) !== -1
+      (book.title && book.title.trim().toLowerCase().indexOf(searchText) !== -1) ||
+      (book.author && book.author.trim().toLowerCase().indexOf(searchText) !== -1) ||
+      (book.category && book.category.name && book.category.name.trim().toLowerCase().indexOf(searchText) !== -1) ||
+      (book.publisher && book.publisher.trim().toLowerCase().indexOf(searchText) !== -1)
     )
+  }
+
+  exportTable(){
+    const excelService = new ExcelService();
+    excelService.exportBooks(this.booksFiltered);
   }
 
   titleColumn: ColumnItem<IBook> = {

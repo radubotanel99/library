@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule, registerLocaleData } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { DataViewComponent } from './dataview/dataview.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -24,7 +23,6 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     HttpClientModule,
     CommonModule,
     AppComponent,
-    DataViewComponent,
     MatDialogModule,
     BrowserAnimationsModule,
     NzMessageModule,

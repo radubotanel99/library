@@ -38,7 +38,6 @@ public class BookServlet {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addBook(Book book) {
-		System.out.println("RADU: I'm here!!");
 		Response validationResponse = bookValidator.validateBook(book, false);
         if (validationResponse != null) {
             return validationResponse;

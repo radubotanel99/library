@@ -8,11 +8,14 @@ import { CommonModule } from '@angular/common';
 import { ICategory } from '../categories/categories.model';
 import { forkJoin, Observable } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
+import { SearchFilterComponent } from "../ui.components/search-filter/search-filter.component";
+import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
 
 @Component({
   selector: 'app-add-book',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, PageTitleComponent, SearchFilterComponent, CustomButtonComponent],
   templateUrl: './edit-book.component.html',
   styleUrl: './edit-book.component.css'
 })
@@ -69,5 +72,9 @@ export class EditBookComponent implements OnInit {
         }
       }
     });
+  }
+
+  trackByCategory(index: number, category: ICategory): string {
+    return category.name;
   }
 }

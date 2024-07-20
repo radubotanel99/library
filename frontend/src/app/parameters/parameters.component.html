@@ -1,0 +1,16 @@
+
+<form (ngSubmit)="saveParameters()">
+    <div class="mainDiv">
+        <div class="form-group" *ngFor="let param of parameters; let i = index">
+            <label for="param-{{i}}">{{param.name}}</label>
+            <!-- <input [(ngModel)]="param.value" name="value-{{i}}" type="number" class="form-control" /> -->
+             <div>
+                <nz-input-number [(ngModel)]="param.value" name="value-{{i}}" type="number" [nzMin]="1" [nzMax]="365" [nzStep]="1"
+                    (keydown)="validateNumberInput($event)">></nz-input-number>
+            </div>
+        </div>
+        <div class="buttonDiv">
+            <button type="submit">Save</button>
+        </div>
+    </div>
+</form>

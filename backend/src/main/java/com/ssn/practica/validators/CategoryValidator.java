@@ -34,7 +34,7 @@ public class CategoryValidator {
 	}
 
 	private Response checkDuplicateUpdate(Category category, Category sameCategoryName) {
-		if (category.getId() != sameCategoryName.getId()) {
+		if (!category.equals(sameCategoryName)) {
 			return response("There is another category with this name.");
     	}
     	return null;

@@ -7,9 +7,14 @@ import { BooksComponent } from './books/books.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { RentsComponent } from './rents/rents.component';
 import { EditRentComponent } from './edit-rent/edit-rent.component';
+import { HomeComponent } from './home/home.component';
+import { DeletedBooksComponent } from './deleted-books/deleted-books.component';
 
 export const routes: Routes = [
-    { path: 'home', component: UsersComponent },
+
+    { path: '', component: HomeComponent },
+
+    { path: 'home', component: HomeComponent },
 
     { path: 'users', component: UsersComponent },
     { path: 'add-user', component: EditUserComponent },
@@ -18,6 +23,7 @@ export const routes: Routes = [
     { path: 'books', component: BooksComponent },
     { path: 'add-book', component: EditBookComponent },
     { path: 'edit-book/:id', component: EditBookComponent },
+    { path: 'deleted-books', component: DeletedBooksComponent},
 
     { path: 'categories', component: CategoriesComponent },
     { path: 'add-category', component: EditCategoryComponent },

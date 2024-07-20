@@ -1,6 +1,10 @@
 // backend/src/main/java/com/example/dao/UserDAO.java
 package com.ssn.practica.dao;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,8 +20,9 @@ import com.ssn.practica.model.User;
 
 public class RentDAO {
 	
-	UserDAO userDAO = new UserDAO();
-	BookDAO bookDAO = new BookDAO();
+	private UserDAO userDAO = new UserDAO();
+	private BookDAO bookDAO = new BookDAO();
+	private ParameterDAO parameterDAO = ParameterDAO.getInstance();
 
 	public List<Rent> getRentsByState(RentState state) {
 		return new WithSessionAndTransaction<List<Rent>>() {
@@ -58,6 +63,15 @@ public class RentDAO {
 		}.run();
 	}
 	
+	public void updateRent(Rent rent) {
+		new WithSessionAndTransaction<Void>() {
+			@Override
+			protected void executeBusinessLogic(Session session) {
+				session.update(rent);
+			}
+		}.run();
+	}
+	
 	public void insertRent(Rent rent) {
 		new WithSessionAndTransaction<Void>() {
 			@Override
@@ -88,4 +102,66 @@ public class RentDAO {
               .filter(rent -> RentState.ACTIVE.equals(rent.getState()) && rent.getUser().equals(user))
               .collect(Collectors.toList());
 	}
+
+	public void updateRentsState() {
+		LocalDate today = LocalDate.now();
+		List<Rent> rents = getRents();
+		for (Rent rent : rents) {
+			LocalDate rentDate = convertToLocalDateViaInstant(rent.getCreatedAt());
+			
+			if (rent.getFinishedAt() == null && rent.getState().equals(RentState.LATE)//
+					&& !rentDate.isBefore(today.minusDays(parameterDAO.getDaysToKeepBook() - 1))) {
+				rent.setState(RentState.ACTIVE);
+				updateRent(rent);
+			}
+			
+			if (rent.getFinishedAt() == null && rent.getState().equals(RentState.ACTIVE)//
+					&& rentDate.isBefore(today.minusDays(parameterDAO.getDaysToKeepBook() - 1))) {
+				rent.setState(RentState.LATE);
+				updateRent(rent);
+			}
+		}
+	}
+	
+	public void rentDaemon() {
+		new WithSessionAndTransaction<Void>() {
+			@Override
+			protected void executeBusinessLogic(Session session) {
+				LocalDate today = LocalDate.now();
+				int daysToKeepBook = parameterDAO.getDaysToKeepBook() - 1;
+				Date dateThresholdActive = convertToDate(today.minusDays(daysToKeepBook));
+			
+				// update rents to LATE if the keeping days have past
+				String hql2 = "UPDATE Rent r " +
+			                "SET r.state = 'LATE' " +
+			                "WHERE r.finishedAt IS NULL " +
+			                "AND r.state = 'ACTIVE' " +
+			                "AND r.createdAt < :dateThresholdLate";
+			
+				session.createQuery(hql2)
+			         .setParameter("dateThresholdLate", dateThresholdActive)
+			         .executeUpdate();
+				
+				// if the keeping days parameters has been modified with a larger value, put the affected rents back to active
+				String hql1 = "UPDATE Rent r " +
+		                "SET r.state = 'ACTIVE' " +
+		                "WHERE r.finishedAt IS NULL " +
+		                "AND r.state = 'LATE' " +
+		                "AND r.createdAt >= :dateThresholdActive";
+
+				session.createQuery(hql1)
+			         .setParameter("dateThresholdActive", dateThresholdActive)
+			         .executeUpdate();
+			}
+		}.run();
+	}
+	
+	
+	private LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+	
+	public static Date convertToDate(LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
 }

@@ -24,4 +24,10 @@ a {
   .search-button {
     margin-right: 8px;
   }
+
+  .container {
+    min-width: 87%;
+    max-width: 87%;
+    margin: 0 auto;
+  }
   

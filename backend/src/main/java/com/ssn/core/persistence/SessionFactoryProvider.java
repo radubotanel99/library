@@ -6,30 +6,40 @@
 
 package com.ssn.core.persistence;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.ssn.practica.daemons.RentScheduler;
+import com.ssn.practica.daemons.RentTask;
 import com.ssn.practica.model.Book;
 import com.ssn.practica.model.Category;
 import com.ssn.practica.model.Rent;
 import com.ssn.practica.model.RentState;
 import com.ssn.practica.model.User;
 
-/**
- * @author <a href="mailto:rveina@ssi-schaefer-noell.com">rveina</a>
- * @version $Revision: $, $Date: $, $Author: $
- */
 
 public class SessionFactoryProvider {
 	private static SessionFactory factory;
+	
+	private static SessionFactory sessionFactory;
+    private static ScheduledExecutorService scheduler;
+    private static RentScheduler rentScheduler;
+
+    static {
+        try {
+        } catch (Throwable ex) {
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
 
 	public static SessionFactory getSessionFactory() {
 		if (factory == null) {
 			try {
-//        Configuration configuration = new Configuration().configure();
-//        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-//        factory = configuration.buildSessionFactory(builder.build());
 
 				factory = new Configuration().configure("hibernate.cfg.xml") //
 						.addAnnotatedClass(User.class) //
@@ -37,7 +47,17 @@ public class SessionFactoryProvider {
 						.addAnnotatedClass(Category.class) //
 						.addAnnotatedClass(Rent.class) //
 						.buildSessionFactory();
+				
 				init();
+				
+				rentScheduler = new RentScheduler();
+	            scheduler = Executors.newScheduledThreadPool(1);
+	            scheduler.scheduleAtFixedRate(new RentTask(), 0, 10, TimeUnit.SECONDS);
+	            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+	                if (scheduler != null) {
+	                    scheduler.shutdown();
+	                }
+	            }));
 			} catch (Throwable ex) {	
 				System.err.println("Failed to create sessionFactory object." + ex);
 			}
@@ -70,12 +90,33 @@ public class SessionFactoryProvider {
 				book.setPrice(4);
 				session.save(book);
 				
-				
 				Rent rent = new Rent();
 				rent.setBook(book);
 				rent.setUser(user);
 				rent.setState(RentState.ACTIVE);
 				session.save(rent);
+				
+				
+				for (int i=2; i<=2000; i++) {
+					book = new Book();
+					book.setTitle("Test" + i);
+					book.setAuthor("Author" + i);
+					book.setCategory(category);
+					book.setBookNumber(i);
+					book.setPublisher("aefew" + i);
+					book.setPrice(4 + i);
+					session.save(book);
+					
+					user = new User();
+					user.setName("Test" + i);
+					user.setEmail("test@gmail.com" + i);
+					user.setAddress("str Trandafir" + i);
+					user.setPhoneNumber("073515644");
+					session.save(user);
+					
+					category = new Category("Test" + i, "");
+					session.save(category);
+				}
 			}
 
 		}.run();

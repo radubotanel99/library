@@ -16,14 +16,7 @@ public class CategoryDAO {
 
 	
 	public List<Category> getCategories() {
-		return new WithSessionAndTransaction<List<Category>>() {
-
-			@Override
-			protected void executeBusinessLogic(Session session) {
-				List<Category> categories = session.createQuery("from Category").getResultList();
-				setReturnValue(categories);
-			}
-		}.run();
+		return getCategoriesByState(false);
 	}
 
 	public void addCategory(Category category) {
@@ -43,7 +36,8 @@ public class CategoryDAO {
 			protected void executeBusinessLogic(Session session) {
 				Category category = session.get(Category.class, bookId);
 				if (category != null) {
-					session.delete(category);
+					category.setDeletd(true);
+					session.update(category);
 				}
 			}
 		}.run();
@@ -74,7 +68,7 @@ public class CategoryDAO {
 		return new WithSessionAndTransaction<Category>() {
 			@Override
 			protected void executeBusinessLogic(Session session) {
-				List<Category> categories = session.createQuery("from Category where name = :category")//
+				List<Category> categories = session.createQuery("from Category where name = :category and deleted = 0")//
 							.setParameter("category", categoryName).getResultList();
 				
 				if (categories.size() > 1) {
@@ -84,8 +78,19 @@ public class CategoryDAO {
 				if (categories.isEmpty()) {
 					setReturnValue(null);
 				} else {
-					setReturnValue(categories.get(0));					
+					setReturnValue(categories.get(0));
 				}
+			}
+		}.run();
+	}
+	
+	public List<Category> getCategoriesByState(boolean isDeleted) {
+		return new WithSessionAndTransaction<List<Category>>() {
+
+			@Override
+			protected void executeBusinessLogic(Session session) {
+				List<Category> categories = session.createQuery("from Category where deleted = :isDeleted order by name").setParameter("isDeleted", isDeleted).getResultList();
+				setReturnValue(categories);
 			}
 		}.run();
 	}

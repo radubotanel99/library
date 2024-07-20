@@ -50,6 +50,7 @@ public class BookDAO {
 		new WithSessionAndTransaction<Void>() {
 			@Override
 			protected void executeBusinessLogic(Session session) {
+				book.setDeleted(false);
 				session.update(book);
 			}
 		}.run();

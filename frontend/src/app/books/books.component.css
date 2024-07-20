@@ -39,3 +39,13 @@ a {
 nz-date-picker {
   margin: 0 8px 12px 0;
 }
+
+.table table-striped table-hover {
+  margin: 1% !important;
+}
+
+.container {
+  min-width: 87%;
+  max-width: 87%;
+  margin: 0 auto;
+}

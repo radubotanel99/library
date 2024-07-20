@@ -39,7 +39,7 @@ public class UserValidator {
 	}
 
 	private Response checkDuplicateUpdate(User user, User sameNameUser) {
-		if (user.getId() != sameNameUser.getId()) {
+		if (!user.equals(sameNameUser)) {
 			return response("There is another user with this name.");
     	}
     	return null;
