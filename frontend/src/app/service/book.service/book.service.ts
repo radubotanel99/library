@@ -9,39 +9,41 @@ import { Router } from '@angular/router';
 })
 export class BookService {
   private book : BehaviorSubject<IBook | null> = new BehaviorSubject<IBook | null>(null);
-
   constructor(private http: HttpClient, private router : Router) { 
 
   }
 
+  // for development, the APIs should not include /backend at the beggining
+  
+
   getBooks() : Observable<IBook[]>{
-    return this.http.get<IBook[]>('/api/books');
+    return this.http.get<IBook[]>('/backend/api/books');
   }
 
   addBook(book : IBook) : Observable<IBook> {
-    return this.http.post<IBook>('/api/books', book).pipe(map((book : IBook) => {
+    return this.http.post<IBook>('/backend/api/books', book).pipe(map((book : IBook) => {
       this.book.next(book);
       return book;
     }));
   }
 
   deleteBook(bookId: number): Observable<void> {
-    return this.http.delete<void>(`/api/books/${bookId}`);
+    return this.http.delete<void>(`/backend/api/books/${bookId}`);
   }
 
   updateBook(book: IBook): Observable<IBook> {
-    return this.http.put<IBook>('/api/books', book);
+    return this.http.put<IBook>('/backend/api/books', book);
   }
 
   getBookById(id: number): Observable<IBook> {
-    return this.http.get<IBook>(`/api/books/${id}`);
+    return this.http.get<IBook>(`/backend/api/books/${id}`);
   }
 
   getBookByNumber(bookNumber: number): Observable<IBook> {
-    return this.http.get<IBook>(`/api/books/bookNumber/${bookNumber}`);
+    return this.http.get<IBook>(`/backend/api/books/bookNumber/${bookNumber}`);
   }
 
   getBooksByState(isDeleted: boolean): Observable<IBook[]> {
-    return this.http.get<IBook[]>(`/api/books/state/${isDeleted}`);
+    return this.http.get<IBook[]>(`/backend/api/books/state/${isDeleted}`);
   }
 }

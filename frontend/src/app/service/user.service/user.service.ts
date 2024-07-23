@@ -14,30 +14,32 @@ export class UserService {
 
   }
 
+  // for development, the APIs should not include /backend at the beggining
+
   getUsers() : Observable<IUser[]>{
-    return this.http.get<IUser[]>('/api/users');
+    return this.http.get<IUser[]>('/backend/api/users');
   }
 
   addUser(user : IUser) : Observable<IUser> {
-    return this.http.post<IUser>('/api/users', user).pipe(map((user : IUser) => {
+    return this.http.post<IUser>('/backend/api/users', user).pipe(map((user : IUser) => {
       this.user.next(user);
       return user;
     }));
   }
 
   deleteUser(userId: number): Observable<void> {
-    return this.http.delete<void>(`/api/users/${userId}`);
+    return this.http.delete<void>(`/backend/api/users/${userId}`);
   }
 
   updateUser(user: IUser): Observable<IUser> {
-    return this.http.put<IUser>('/api/users', user); 
+    return this.http.put<IUser>('/backend/api/users', user); 
   }
 
   getUserById(userId: number): Observable<IUser> {
-    return this.http.get<IUser>(`/api/users/${userId}`);
+    return this.http.get<IUser>(`/backend/api/users/${userId}`);
   }
 
   getUserByName(userName: string): Observable<IUser> {
-    return this.http.get<IUser>(`/api/users/name/${userName}`);
+    return this.http.get<IUser>(`/backend/api/users/name/${userName}`);
   }
 }
