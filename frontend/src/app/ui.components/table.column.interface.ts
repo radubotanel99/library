@@ -10,5 +10,5 @@ export interface ColumnItem<T> {
   listOfFilter?: NzTableFilterList;
   filterFn?: NzTableFilterFn<T> | null;
   showSearch?: boolean | null;
-  filterMultiple?: false,
+  filterMultiple?: false | true,
 }
