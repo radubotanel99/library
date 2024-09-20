@@ -42,13 +42,13 @@ export class EditUserComponent implements OnInit {
 
   saveUser(): void {
     if (this.isEditMode) {
-      this.handleBookSave(this.userService.updateUser(this.user));
+      this.handleUserSave(this.userService.updateUser(this.user));
     } else {
-      this.handleBookSave(this.userService.addUser(this.user));
+      this.handleUserSave(this.userService.addUser(this.user));
     }
   }
 
-  handleBookSave(observable: Observable<IUser>): void {
+  handleUserSave(observable: Observable<IUser>): void {
     observable.subscribe({
       next: () => {
         this.message.success('User saved successfully.');

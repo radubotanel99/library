@@ -65,7 +65,7 @@
                 <td>{{ rent.createdAt | date:'dd-MM-yyyy'}}</td>
                 <td>{{ rent.finishedAt | date:'dd-MM-yyyy'}}</td>
                 <td>
-                    <button *ngIf="rent.state === 'ACTIVE'" (click)="finishRent(rent.id)">Finish</button>
+                    <button *ngIf="(rent.state === 'ACTIVE' || rent.state === 'LATE')" (click)="finishRent(rent.id)">Finish</button>
                 </td>
             </tr>
         </tbody>

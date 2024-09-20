@@ -14,24 +14,28 @@ export class RentService {
 
   }
 
-  // for development, the APIs should not include /backend at the beggining
+  //production API
+  // private baseUrl: string = '/backend/api/rents';
+
+  //development API
+  private baseUrl: string = '/api/rents';
 
   getRents() : Observable<IRent[]>{
-    return this.http.get<IRent[]>('/backend/api/rents');
+    return this.http.get<IRent[]>(this.baseUrl);
   }
 
   addRent(rent : IRent) : Observable<IRent> {
-    return this.http.post<IRent>('/backend/api/rents', rent).pipe(map((rent : IRent) => {
+    return this.http.post<IRent>(this.baseUrl, rent).pipe(map((rent : IRent) => {
       this.rent.next(rent);
       return rent;
     }));
   }
 
   getRentByState(rentState: string): Observable<IRent> {
-    return this.http.get<IRent>(`/backend/api/rents/${rentState}`);
+    return this.http.get<IRent>(`${this.baseUrl}/${rentState}`);
   }
 
   finishRent(id: number): Observable<void> {
-    return this.http.post<void>(`/backend/api/rents/${id}/finish`, {});
+    return this.http.post<void>(`${this.baseUrl}/${id}/finish`, {});
   }
 }

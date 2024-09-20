@@ -14,15 +14,18 @@ export class ParameterService {
 
   }
 
-  // for development, the APIs should not include /backend at the beggining
+  //production API
+  // private baseUrl: string = '/backend/api/parameters';
 
+  //development API
+  private baseUrl: string = '/api/parameters';
   
   getParameters() : Observable<IParameter[]>{
-    return this.http.get<IParameter[]>('/backend/api/parameters');
+    return this.http.get<IParameter[]>(this.baseUrl);
   }
 
   saveParameters(parameters: IParameter[]): Observable<IParameter[]> {
-    return this.http.post<IParameter[]>('/backend/api/parameters', parameters).pipe(map((updatedParameters: IParameter[]) => {
+    return this.http.post<IParameter[]>(this.baseUrl, parameters).pipe(map((updatedParameters: IParameter[]) => {
       return updatedParameters;
     }));
   }

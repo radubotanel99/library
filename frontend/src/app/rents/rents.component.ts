@@ -136,15 +136,15 @@ export class RentsComponent implements OnInit {
 
   stateColumn: ColumnItem<IRent> = {
     name: 'State',
-    sortOrder: null,
+    sortOrder: 'ascend',
     sortFn: (a: IRent, b: IRent) => a.state.localeCompare(b.state),
     listOfFilter: [
-      { text: 'ACTIVE', value: 'ACTIVE' },
-      { text: 'LATE', value: 'LATE'},
+      { text: 'ACTIVE', value: 'ACTIVE', byDefault: true },
+      { text: 'LATE', value: 'LATE', byDefault: true },
       { text: 'FINISHED', value: 'FINISHED' }
     ],
-    filterMultiple: false,
-    filterFn: (state: string, rent: IRent) => rent.state === state,
+    filterMultiple: true,
+    filterFn: (list: string[], item: IRent) => list.some(state => item.state.indexOf(state) !== -1),
   }
 
   createdAtColumn: ColumnItem<IRent> = {

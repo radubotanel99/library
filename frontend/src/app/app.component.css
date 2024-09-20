@@ -1,8 +1,8 @@
 
 .background {
     /* background-color: bisque; */
-    /* for development: */ /* background-image: url(/assets/images/radu.jpg); */
-    /* for production: */ background-image: url(/frontend/browser/assets/images/radu.jpg);
+    /* for development: */ background-image: url(/assets/images/radu.jpg); 
+    /* for production: */ /* background-image: url(/frontend/browser/assets/images/radu.jpg); */
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 

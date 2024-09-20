@@ -14,32 +14,36 @@ export class CategoryService {
 
   }
 
-  // for development, the APIs should not include /backend at the beggining
+  //production API
+  // private baseUrl: string = '/backend/api/categories';
+
+  //development API
+  private baseUrl: string = '/api/categories';
 
   getCategories() : Observable<ICategory[]>{
-    return this.http.get<ICategory[]>('/backend/api/categories');
+    return this.http.get<ICategory[]>(this.baseUrl);
   }
 
   addCategory(category : ICategory) : Observable<ICategory> {
-    return this.http.post<ICategory>('/backend/api/categories', category).pipe(map((category : ICategory) => {
+    return this.http.post<ICategory>(this.baseUrl, category).pipe(map((category : ICategory) => {
       this.category.next(category);
       return category;
     }));
   }
 
   deleteCategory(categoryId: number): Observable<void> {
-    return this.http.delete<void>(`/backend/api/categories/${categoryId}`);
+    return this.http.delete<void>(`${this.baseUrl}/${categoryId}`);
   }
 
   updateCategory(category: ICategory): Observable<ICategory> {
-    return this.http.put<ICategory>('/backend/api/categories', category); 
+    return this.http.put<ICategory>(this.baseUrl, category); 
   }
 
   getCategoryById(categoryId: number): Observable<ICategory> {
-    return this.http.get<ICategory>(`/backend/api/categories/${categoryId}`);
+    return this.http.get<ICategory>(`${this.baseUrl}/${categoryId}`);
   }
 
   getCategoryByName(categoryName: string): Observable<ICategory> {
-    return this.http.get<ICategory>(`/backend/api/categories/name/${categoryName}`);
+    return this.http.get<ICategory>(`${this.baseUrl}/name/${categoryName}`);
   }
 }

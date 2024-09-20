@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +19,10 @@ import javax.persistence.Table;
 public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_sequence")
+//    @SequenceGenerator(name = "cat_sequence", sequenceName = "category_sequence", allocationSize = 1, initialValue = 100)
+	
 	private Long id;
 	
 	private String name;

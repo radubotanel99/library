@@ -14,32 +14,36 @@ export class UserService {
 
   }
 
-  // for development, the APIs should not include /backend at the beggining
+  //production API
+  // private baseUrl: string = '/backend/api/users';
+
+  //development API
+  private baseUrl: string = '/api/users';
 
   getUsers() : Observable<IUser[]>{
-    return this.http.get<IUser[]>('/backend/api/users');
+    return this.http.get<IUser[]>(this.baseUrl);
   }
 
   addUser(user : IUser) : Observable<IUser> {
-    return this.http.post<IUser>('/backend/api/users', user).pipe(map((user : IUser) => {
+    return this.http.post<IUser>(this.baseUrl, user).pipe(map((user : IUser) => {
       this.user.next(user);
       return user;
     }));
   }
 
   deleteUser(userId: number): Observable<void> {
-    return this.http.delete<void>(`/backend/api/users/${userId}`);
+    return this.http.delete<void>(`${this.baseUrl}/${userId}`);
   }
 
   updateUser(user: IUser): Observable<IUser> {
-    return this.http.put<IUser>('/backend/api/users', user); 
+    return this.http.put<IUser>(this.baseUrl, user); 
   }
 
   getUserById(userId: number): Observable<IUser> {
-    return this.http.get<IUser>(`/backend/api/users/${userId}`);
+    return this.http.get<IUser>(`${this.baseUrl}/${userId}`);
   }
 
   getUserByName(userName: string): Observable<IUser> {
-    return this.http.get<IUser>(`/backend/api/users/name/${userName}`);
+    return this.http.get<IUser>(`${this.baseUrl}/name/${userName}`);
   }
 }

@@ -54,7 +54,6 @@ export class EditBookComponent implements OnInit {
 
   saveBook(): void {
     if (this.isEditMode) {
-      console.log(this.book);
       this.handleBookSave(this.bookService.updateBook(this.book));
     } else {
       // category <select> is biding just category.id, not the category.
@@ -72,7 +71,7 @@ export class EditBookComponent implements OnInit {
         this.router.navigate(['/books']);
       },
       error: (error: any) => {
-        if (error.status === 400) {
+        if (error.status === 400 && error.error.message) {
           this.message.error(error.error.message);
         } else {
           this.message.error('An unexpected error occurred. Contact the administrator.');

@@ -13,37 +13,41 @@ export class BookService {
 
   }
 
-  // for development, the APIs should not include /backend at the beggining
   
+  //production API
+  // private baseUrl: string = '/backend/api/books';
+
+  //development API
+  private baseUrl: string = '/api/books';
 
   getBooks() : Observable<IBook[]>{
-    return this.http.get<IBook[]>('/backend/api/books');
+    return this.http.get<IBook[]>(this.baseUrl);
   }
 
   addBook(book : IBook) : Observable<IBook> {
-    return this.http.post<IBook>('/backend/api/books', book).pipe(map((book : IBook) => {
+    return this.http.post<IBook>(this.baseUrl, book).pipe(map((book : IBook) => {
       this.book.next(book);
       return book;
     }));
   }
 
   deleteBook(bookId: number): Observable<void> {
-    return this.http.delete<void>(`/backend/api/books/${bookId}`);
+    return this.http.delete<void>(`${this.baseUrl}/${bookId}`);
   }
 
   updateBook(book: IBook): Observable<IBook> {
-    return this.http.put<IBook>('/backend/api/books', book);
+    return this.http.put<IBook>(this.baseUrl, book);
   }
 
   getBookById(id: number): Observable<IBook> {
-    return this.http.get<IBook>(`/backend/api/books/${id}`);
+    return this.http.get<IBook>(`${this.baseUrl}/${id}`);
   }
 
   getBookByNumber(bookNumber: number): Observable<IBook> {
-    return this.http.get<IBook>(`/backend/api/books/bookNumber/${bookNumber}`);
+    return this.http.get<IBook>(`${this.baseUrl}/bookNumber/${bookNumber}`);
   }
 
   getBooksByState(isDeleted: boolean): Observable<IBook[]> {
-    return this.http.get<IBook[]>(`/backend/api/books/state/${isDeleted}`);
+    return this.http.get<IBook[]>(`${this.baseUrl}/state/${isDeleted}`);
   }
 }
