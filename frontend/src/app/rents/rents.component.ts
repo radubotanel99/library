@@ -137,7 +137,17 @@ export class RentsComponent implements OnInit {
   stateColumn: ColumnItem<IRent> = {
     name: 'State',
     sortOrder: 'ascend',
-    sortFn: (a: IRent, b: IRent) => a.state.localeCompare(b.state),
+    // sortFn: (a: IRent, b: IRent) => a.state.localeCompare(b.state),
+    sortFn: (a: IRent, b: IRent) => {
+      const stateOrder = ['ACTIVE', 'LATE', 'FINISHED'];
+      
+      // Get the index of the states in the custom order array
+      const stateA = stateOrder.indexOf(a.state);
+      const stateB = stateOrder.indexOf(b.state);
+      
+      // Compare based on the index in the stateOrder array
+      return stateA - stateB;
+    },
     listOfFilter: [
       { text: 'ACTIVE', value: 'ACTIVE', byDefault: true },
       { text: 'LATE', value: 'LATE', byDefault: true },
