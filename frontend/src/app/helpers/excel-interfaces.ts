@@ -22,3 +22,13 @@ export interface IExcelUser {
     address: string;
     phoneNumber: string;
 }
+
+export interface IExcelRent {
+    user: string;
+    book: string;
+    bookNumber: number;
+    state: string;
+    publisher: string;
+    createdAt: string;
+    finishedAt: string;
+  }

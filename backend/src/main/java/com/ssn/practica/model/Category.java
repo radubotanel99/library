@@ -19,9 +19,6 @@ import javax.persistence.Table;
 public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_sequence")
-//    @SequenceGenerator(name = "cat_sequence", sequenceName = "category_sequence", allocationSize = 1, initialValue = 100)
 	
 	private Long id;
 	

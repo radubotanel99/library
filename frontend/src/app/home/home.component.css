@@ -16,8 +16,7 @@
 }
 
 .image {
-  /*for development: */  background-image: url(/assets/images/file.png) !important; 
-  /*for production: */ /* background-image: url(/frontend/browser/assets/images/file.png) !important; */
+
   background-size: contain; 
   background-position: left;
   background-repeat: no-repeat; 

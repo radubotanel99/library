@@ -5,6 +5,7 @@ import { HeaderComponent } from './header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -14,5 +15,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'frontend'; 
+  backgroundImage = (environment.production) ? 'url(/frontend/browser/assets/images/radu.jpg)' : 'url(/assets/images/radu.jpg)';
+
+      /* for development: *//*  background-image: url(/assets/images/radu.jpg); */ 
+    /* for production: */ //background-image: url(/frontend/browser/assets/images/radu.jpg); 
 }

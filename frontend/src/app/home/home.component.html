@@ -1,6 +1,6 @@
 
 <div class="homeContainer">
-    <div class="image"></div>
+    <div [style.background-image]="backgroundImage" class="image"></div>
     <nz-card  [nzBordered]="true" nzTitle="Settings" [nzExtra]="actionSetting" class="custom-card">
       <app-parameters></app-parameters>
       <a class="linkClass" (click)="goToDeletedBooks()">Deleted Books</a>

@@ -87,12 +87,12 @@ export class CategoriesComponent implements OnInit {
   nameColumn: ColumnItem<ICategory> = {
     name: 'Category Name',
     sortOrder: null,
-    sortFn: (a: ICategory, b: ICategory) => a.name.localeCompare(b.name),
+    sortFn: (a: ICategory | null, b: ICategory | null) => (a?.name ?? '').localeCompare(b?.name ?? ''),
   }
 
   descriptionColumn: ColumnItem<ICategory> = {
     name: 'Description',
     sortOrder: null,
-    sortFn: (a: ICategory, b: ICategory) => a.description.localeCompare(b.description),
+    sortFn: (a: ICategory | null, b: ICategory | null) => (a?.description ?? '').localeCompare(b?.description ?? ''),
   }
 }

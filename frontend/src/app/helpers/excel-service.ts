@@ -1,9 +1,10 @@
 
 import * as XLSX from "xlsx";
 import { IBook } from "../books/books.model";
-import { IExcelBook, IExcelCategory, IExcelUser } from "./excel-interfaces";
+import { IExcelBook, IExcelCategory, IExcelRent, IExcelUser } from "./excel-interfaces";
 import { ICategory } from "../categories/categories.model";
 import { IUser } from "../users/users.model";
+import { IRent } from "../rents/rents.model";
 
 export class ExcelService {
 
@@ -58,6 +59,19 @@ export class ExcelService {
       phoneNumber: user.phoneNumber,
     }));
     this.exportArrayToExcel(excelUsers, "Users");
+  }
+
+  exportRents(rents: IRent[]) : void {
+    let exelRents: Partial<IExcelRent>[] = [];
+    exelRents = rents.map(rent => ({
+      user: rent.user.name,
+      book: rent.book.title,
+      bookNumber: rent.book.bookNumber,
+      state: rent.state,
+      createdAt: this.convertToDateString(rent.createdAt),
+      finishedAt: this.convertToDateString(rent.finishedAt),
+    }))
+    this.exportArrayToExcel(exelRents, "Rents");
   }
 
   private convertToDateString(date: any): string {

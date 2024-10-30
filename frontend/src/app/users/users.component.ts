@@ -89,19 +89,19 @@ export class UsersComponent implements OnInit {
   nameColumn: ColumnItem<IUser> = {
     name: 'Name',
     sortOrder: null,
-    sortFn: (a: IUser, b: IUser) => a.name.localeCompare(b.name),
+    sortFn: (a: IUser | null, b: IUser | null) => (a?.name ?? '').localeCompare(b?.name ?? ''),
   }
 
   emailColumn: ColumnItem<IUser> = {
     name: 'Email',
     sortOrder: null,
-    sortFn: (a: IUser, b: IUser) => a.email.localeCompare(b.email),
+    sortFn: (a: IUser | null, b: IUser| null) => (a?.email ?? '').localeCompare(b?.email ?? ''),
   }
 
   addressColumn: ColumnItem<IUser> = {
     name: 'Address',
     sortOrder: null,
-    sortFn: (a: IUser, b: IUser) => a.address.localeCompare(b.address),
+    sortFn: (a: IUser | null, b: IUser | null) => (a?.address ?? '').localeCompare(b?.address ?? ''),
   }
 
   phoneColumn: ColumnItem<IUser> = {

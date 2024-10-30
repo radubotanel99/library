@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, ReplaySubject, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { IParameter } from '../../parameters/parameters.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,13 @@ export class ParameterService {
 
   }
 
+  private baseUrl: string = (environment.production) ? '/backend/api/parameters' : '/api/parameters';
+
   //production API
-  // private baseUrl: string = '/backend/api/parameters';
+  //private baseUrl: string = '/backend/api/parameters';
 
   //development API
-  private baseUrl: string = '/api/parameters';
+  // private baseUrl: string = '/api/parameters';
   
   getParameters() : Observable<IParameter[]>{
     return this.http.get<IParameter[]>(this.baseUrl);

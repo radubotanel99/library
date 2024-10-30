@@ -2,6 +2,7 @@
     <app-page-title [title]="'Rents'"></app-page-title>
 
     <app-custom-button text="Add rent" (click)="addRent()"></app-custom-button>
+    <app-custom-button text="Export" (click)="exportRents()"></app-custom-button>
     <app-search-filter [value]="this.searchedText" (valueChange)="onChangeSearchText($event)"></app-search-filter>
 
     <nz-table #nzTable [nzData]="this.rentsToShow" [nzSize]="'small'" nzTableLayout="fixed" class="table table-striped table-hover"
@@ -32,7 +33,8 @@
                 [nzSortFn]="stateColumn.sortFn!"
                 [nzFilterMultiple]="stateColumn.filterMultiple!"
                 [nzFilters]="stateColumn.listOfFilter!"
-                [nzFilterFn]="stateColumn.filterFn!">
+                [nzFilterFn]="stateColumn.filterFn!"
+                (nzFilterChange)="onFilterChange($event)">
                   State</th>
 
                 <th scope="col" 
@@ -65,7 +67,16 @@
                 <td>{{ rent.createdAt | date:'dd-MM-yyyy'}}</td>
                 <td>{{ rent.finishedAt | date:'dd-MM-yyyy'}}</td>
                 <td>
-                    <button *ngIf="(rent.state === 'ACTIVE' || rent.state === 'LATE')" (click)="finishRent(rent.id)">Finish</button>
+                    <button *ngIf="(rent.state === 'ACTIVE' || rent.state === 'LATE')" 
+                    nz-popconfirm
+                    nzPopconfirmTitle="Are you sure?"
+                    (nzOnConfirm)="finishRent(rent.id)">Finish</button>
+
+                    <!-- <button 
+                        nz-popconfirm
+                        nzPopconfirmTitle="Are you sure?"
+                        (nzOnConfirm)="deleteBook(book.id)">
+                          Delete</button> -->
                 </td>
             </tr>
         </tbody>

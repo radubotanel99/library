@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IUser } from '../../users/users.model';
 import { BehaviorSubject, Observable, ReplaySubject, map } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,13 @@ export class UserService {
 
   }
 
+  private baseUrl: string = (environment.production) ? '/backend/api/users' : '/api/users';
+
   //production API
-  // private baseUrl: string = '/backend/api/users';
+  //private baseUrl: string = '/backend/api/users';
 
   //development API
-  private baseUrl: string = '/api/users';
+  // private baseUrl: string = '/api/users';
 
   getUsers() : Observable<IUser[]>{
     return this.http.get<IUser[]>(this.baseUrl);

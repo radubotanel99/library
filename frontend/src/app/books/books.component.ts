@@ -124,19 +124,19 @@ export class BooksComponent implements OnInit {
 
   exportTable(){
     const excelService = new ExcelService();
-    excelService.exportBooks(this.booksFiltered);
+    excelService.exportBooks(this.booksToShow);
   }
 
   titleColumn: ColumnItem<IBook> = {
     name: 'Title',
     sortOrder: null,
-    sortFn: (a: IBook, b: IBook) => a.title.localeCompare(b.title),
+    sortFn: (a: IBook | null, b: IBook | null) => (a?.title ?? '').localeCompare(b?.title ?? ''),
   }
 
   authorColumn: ColumnItem<IBook> = {
     name: 'Author',
     sortOrder: null,
-    sortFn: (a: IBook, b: IBook) => a.author.localeCompare(b.author),
+    sortFn: (a: IBook | null, b: IBook | null) => (a?.author ?? '').localeCompare(b?.author ?? ''),
   }
 
   numberColumn: ColumnItem<IBook> = {
@@ -148,13 +148,13 @@ export class BooksComponent implements OnInit {
   categoryColumn: ColumnItem<IBook> = {
     name: 'Category',
     sortOrder: null,
-    sortFn: (a: IBook, b: IBook) => a.category.name.localeCompare(b.category.name),
+    sortFn: (a: IBook | null, b: IBook | null) => (a?.category?.name ?? '').localeCompare(b?.category?.name ?? ''),
   }
 
   publisherColumn: ColumnItem<IBook> = {
     name: 'Publisher',
     sortOrder: null,
-    sortFn: (a: IBook, b: IBook) => a.publisher.localeCompare(b.publisher),
+    sortFn: (a: IBook | null, b: IBook | null) => (a?.publisher ?? '').localeCompare(b?.publisher ?? ''),
   }
 
   priceColumn: ColumnItem<IBook> = {
@@ -166,6 +166,6 @@ export class BooksComponent implements OnInit {
   createdAtColumn: ColumnItem<IBook> = {
     name: 'CreatedAt',
     sortOrder: null,
-    sortFn: (a: IBook, b: IBook) => a.createdAt.getTime() - b.createdAt.getTime(),
+    sortFn: (a: IBook, b: IBook) => new Date(a.createdAt!).getTime() - new Date(b.createdAt!).getTime(),
   }
-}
+}  

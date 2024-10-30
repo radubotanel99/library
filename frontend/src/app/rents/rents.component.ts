@@ -14,11 +14,14 @@ import { SearchFilterComponent } from "../ui.components/search-filter/search-fil
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ExcelService } from '../helpers/excel-service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, NzTableModule, NzDropDownModule, FormsModule, NzIconModule, SearchFilterComponent, NzDatePickerModule, PageTitleComponent, CustomButtonComponent],
+  imports: [CommonModule, HttpClientModule, NzTableModule, NzDropDownModule, FormsModule, NzIconModule, SearchFilterComponent, NzDatePickerModule, PageTitleComponent, CustomButtonComponent, NzPopconfirmModule],
   templateUrl: './rents.component.html',
   styleUrl: './rents.component.css'
 })
@@ -26,6 +29,8 @@ export class RentsComponent implements OnInit {
   rents: IRent[];
   rentsFiltered: IRent[] = [];
   rentsToShow: IRent[] = [];
+  filteredStates: string[] = ['ACTIVE', 'LATE'];
+  rentsToExport: IRent[] = [];
   dateCreatedFilterValue: Date[] = [];
   dateCreatedFilterVisible = false;
   dateFinishedFilterValue: Date[] = [];
@@ -34,7 +39,7 @@ export class RentsComponent implements OnInit {
   searchNumberVisible = false;
   searchedText : string = '';
   
-  constructor(private rentService: RentService, private router: Router, private i18n: NzI18nService) {
+  constructor(private rentService: RentService, private router: Router, private i18n: NzI18nService, private message: NzMessageService) {
     this.rents = [];
   }
 
@@ -52,11 +57,14 @@ export class RentsComponent implements OnInit {
   }
 
   finishRent(rentId: number): void {
-    this.rentService.finishRent(rentId).subscribe(() => {
-      this.rentService.getRents().subscribe(rents => {
-        this.rents = rents;
-        this.applyFilters();
-      });
+    this.rentService.finishRent(rentId).subscribe({
+      next: () => {
+        this.message.success("Rent finished!");
+        this.rentService.getRents().subscribe(rents => {
+          this.rents = rents;
+          this.applyFilters();
+        });
+      }
     });
   }
 
@@ -116,16 +124,28 @@ export class RentsComponent implements OnInit {
     )
   }
 
+  exportRents() {
+    const excelService = new ExcelService();
+    this.rentsToExport = this.rentsToShow.filter(rent => 
+      this.filteredStates.includes(rent.state)
+    );
+    excelService.exportRents(this.rentsToExport);
+  }
+
+  onFilterChange(selectedFilters: string[]) {
+    this.filteredStates = selectedFilters;
+  }
+
   bookColumn: ColumnItem<IRent> = {
     name: 'Book',
     sortOrder: null,
-    sortFn: (a: IRent, b: IRent) => a.book.title.localeCompare(b.book.title),
+    sortFn: (a: IRent | null, b: IRent | null) => (a?.book.title ?? '').localeCompare(b?.book.title ?? ''),
   }
 
   userColumn: ColumnItem<IRent> = {
     name: 'User',
     sortOrder: null,
-    sortFn: (a: IRent, b: IRent) => a.user.name.localeCompare(b.user.name),
+    sortFn: (a: IRent | null, b: IRent | null) => (a?.user.name ?? '').localeCompare(b?.user.name ?? ''),
   }
 
   bookNumberColumn: ColumnItem<IRent> = {
@@ -137,15 +157,10 @@ export class RentsComponent implements OnInit {
   stateColumn: ColumnItem<IRent> = {
     name: 'State',
     sortOrder: 'ascend',
-    // sortFn: (a: IRent, b: IRent) => a.state.localeCompare(b.state),
     sortFn: (a: IRent, b: IRent) => {
       const stateOrder = ['ACTIVE', 'LATE', 'FINISHED'];
-      
-      // Get the index of the states in the custom order array
       const stateA = stateOrder.indexOf(a.state);
       const stateB = stateOrder.indexOf(b.state);
-      
-      // Compare based on the index in the stateOrder array
       return stateA - stateB;
     },
     listOfFilter: [

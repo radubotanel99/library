@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IBook } from '../../books/books.model';
 import { BehaviorSubject, Observable, ReplaySubject, catchError, map, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,13 @@ export class BookService {
 
   }
 
+  private baseUrl: string = (environment.production) ? '/backend/api/books' : '/api/books';
   
   //production API
-  // private baseUrl: string = '/backend/api/books';
+  //private baseUrl: string = '/backend/api/books';
 
   //development API
-  private baseUrl: string = '/api/books';
+  // private baseUrl: string = '/api/books';
 
   getBooks() : Observable<IBook[]>{
     return this.http.get<IBook[]>(this.baseUrl);

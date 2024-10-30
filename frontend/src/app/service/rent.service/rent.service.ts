@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IRent } from '../../rents/rents.model';
 import { BehaviorSubject, Observable, ReplaySubject, map } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,13 @@ export class RentService {
 
   }
 
+  private baseUrl: string = (environment.production) ? '/backend/api/rents' : '/api/rents';
+
   //production API
-  // private baseUrl: string = '/backend/api/rents';
+  //private baseUrl: string = '/backend/api/rents';
 
   //development API
-  private baseUrl: string = '/api/rents';
+  // private baseUrl: string = '/api/rents';
 
   getRents() : Observable<IRent[]>{
     return this.http.get<IRent[]>(this.baseUrl);
