@@ -32,7 +32,7 @@ export class ExcelService {
       title: book.title,
       author: book.author,
       bookNumber: book.bookNumber,
-      category: book.category,
+      category: book.category.name,
       publisher: book.publisher,
       price: book.price,
       createdAt: this.convertToDateString(book.createdAt)

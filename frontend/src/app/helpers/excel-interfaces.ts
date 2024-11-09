@@ -5,7 +5,7 @@ export interface IExcelBook {
     title: string;
     author: string;
     bookNumber: number;
-    category: ICategory;
+    category: string;
     publisher: string;
     price: number;
     createdAt: string;
