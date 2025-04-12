@@ -22,20 +22,19 @@ import com.ssn.practica.model.Rent;
 import com.ssn.practica.model.RentState;
 import com.ssn.practica.model.User;
 
-
 public class SessionFactoryProvider {
 	private static SessionFactory factory;
-	
-	private static SessionFactory sessionFactory;
-    private static ScheduledExecutorService scheduler;
-    private static RentScheduler rentScheduler;
 
-    static {
-        try {
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
+	private static SessionFactory sessionFactory;
+	private static ScheduledExecutorService scheduler;
+	private static RentScheduler rentScheduler;
+
+	static {
+		try {
+		} catch (Throwable ex) {
+			throw new ExceptionInInitializerError(ex);
+		}
+	}
 
 	public static SessionFactory getSessionFactory() {
 		if (factory == null) {
@@ -47,17 +46,20 @@ public class SessionFactoryProvider {
 						.addAnnotatedClass(Category.class) //
 						.addAnnotatedClass(Rent.class) //
 						.buildSessionFactory();
-				
+
 //				init();
-				
+
 				rentScheduler = new RentScheduler();
-	            scheduler = Executors.newScheduledThreadPool(1);
-	            scheduler.scheduleAtFixedRate(new RentTask(), 0, 10, TimeUnit.SECONDS);
-	            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-	                if (scheduler != null) {
-	                    scheduler.shutdown();
-	                }
-	            }));
+				scheduler = Executors.newScheduledThreadPool(1);
+
+				new Thread(new RentTask()).start();
+
+				scheduler.scheduleAtFixedRate(new RentTask(), 1, 1, TimeUnit.DAYS);
+				Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+					if (scheduler != null) {
+						scheduler.shutdown();
+					}
+				}));
 			} catch (Throwable ex) {
 				System.err.println("Failed to create sessionFactory object." + ex);
 			}
@@ -77,7 +79,7 @@ public class SessionFactoryProvider {
 				user.setAddress("scfesrgfer");
 				user.setPhoneNumber("0735156464");
 				session.save(user);
-				
+
 				Category category = new Category("Test", "");
 				session.save(category);
 
@@ -89,15 +91,14 @@ public class SessionFactoryProvider {
 				book.setPublisher("aefew");
 				book.setPrice(4);
 				session.save(book);
-				
+
 				Rent rent = new Rent();
 				rent.setBook(book);
 				rent.setUser(user);
 				rent.setState(RentState.ACTIVE);
 				session.save(rent);
-				
-				
-				for (int i=2; i<=200; i++) {
+
+				for (int i = 2; i <= 200; i++) {
 					book = new Book();
 					book.setTitle("Test" + i);
 					book.setAuthor("Author" + i);
@@ -106,14 +107,14 @@ public class SessionFactoryProvider {
 					book.setPublisher("aefew" + i);
 					book.setPrice(4 + i);
 					session.save(book);
-					
+
 					user = new User();
 					user.setName("Test" + i);
 					user.setEmail("test@gmail.com" + i);
 					user.setAddress("str Trandafir" + i);
 					user.setPhoneNumber("073515644");
 					session.save(user);
-					
+
 					category = new Category("Test" + i, "");
 					session.save(category);
 				}

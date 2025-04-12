@@ -3,7 +3,8 @@
     <div [style.background-image]="backgroundImage" class="image"></div>
     <nz-card  [nzBordered]="true" nzTitle="Settings" [nzExtra]="actionSetting" class="custom-card">
       <app-parameters></app-parameters>
-      <a class="linkClass" (click)="goToDeletedBooks()">Deleted Books</a>
+      <div style="margin: 10px;"></div>
+      <app-custom-button text="Deleted books" (click)="goToDeletedBooks()"></app-custom-button>
     </nz-card>
     <ng-template #actionSetting>
       <span nz-icon nzType="setting"></span>

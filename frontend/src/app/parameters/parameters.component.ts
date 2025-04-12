@@ -10,18 +10,25 @@ import { ParameterService } from '../service/parameter.service/parameter.service
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable } from 'rxjs';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { CustomButtonComponent } from '../ui.components/custom-button/custom-button.component';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-parameters',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, NzIconModule, NzInputNumberModule],
+  imports: [CommonModule, HttpClientModule, FormsModule, NzIconModule, NzInputNumberModule, NzModalModule, NzButtonModule, CustomButtonComponent],
   templateUrl: './parameters.component.html',
   styleUrl: './parameters.component.css'
 })
 export class ParametersComponent implements OnInit {
   parameters: IParameter[];
 
-  constructor(private parameterService: ParameterService, private router: Router, private message: NzMessageService) {
+  romanianFlagIcon = (environment.production) ? '/frontend/browser/assets/images/romania.png' : '/assets/images/romania.png'
+  americanFlagIcon = (environment.production) ? '/frontend/browser/assets/images/america.png' : '/assets/images/america.png';
+
+  constructor(private parameterService: ParameterService, private router: Router, private message: NzMessageService, private i18n: NzI18nService) {
     this.parameters = [];
   }
 
@@ -29,10 +36,12 @@ export class ParametersComponent implements OnInit {
     this.parameterService.getParameters().subscribe(parameters => {
       this.parameters = parameters;
     })
+    this.i18n.setLocale(en_US); 
   }
 
   saveParameters(): void {
     this.handleParameterSave(this.parameterService.saveParameters(this.parameters));
+    this.isVisible = false;
   }
 
   handleParameterSave(observable: Observable<IParameter[]>): void {
@@ -57,5 +66,22 @@ export class ParametersComponent implements OnInit {
     if (!allowedKeys.includes(key) && isNaN(Number(key))) {
       event.preventDefault();
     }
+  }
+
+  isVisible = false;
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+  
+  handleCancel(): void {
+    this.isVisible = false;
+    this.parameterService.getParameters().subscribe(parameters => {
+      this.parameters = parameters;
+    })
+  }
+
+  setLanguage(param: IParameter, languageNumber: number) {
+    param.value = languageNumber;
   }
 }

@@ -5,4 +5,7 @@ public interface GeneralConstants {
 	public static final int DEFAULT_MAX_DAYS_TO_KEEP_BOOKS = 14;
 	public static final String DAYS_TO_KEEP_BOOK = "DaysToKeepABook";
 	public static final String MAX_BOOKS_PER_USER = "MaxBooksPerUser";
+
+	public static final String LANGUAGE_PARAM = "Language";
+	public static final int ENGLISH = 1;
 }

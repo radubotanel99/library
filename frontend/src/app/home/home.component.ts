@@ -4,11 +4,12 @@ import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
 import { ParametersComponent } from "../parameters/parameters.component";
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { CustomButtonComponent } from '../ui.components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NzCardModule, NzIconModule, ParametersComponent],
+  imports: [NzCardModule, NzIconModule, ParametersComponent, CustomButtonComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

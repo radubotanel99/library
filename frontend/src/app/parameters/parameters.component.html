@@ -1,16 +1,41 @@
-
-<form (ngSubmit)="saveParameters()">
-    <div class="mainDiv">
+<div>
+    <app-custom-button text="Parameters" (click)="showModal()"></app-custom-button>
+    <nz-modal [(nzVisible)]="isVisible" [nzOkText]="'Save'" nzTitle="Parameters" (nzOnCancel)="handleCancel()" (nzOnOk)="saveParameters()">
+        <ng-container *nzModalContent>
         <div class="form-group" *ngFor="let param of parameters; let i = index">
             <label for="param-{{i}}">{{param.name}}</label>
-            <!-- <input [(ngModel)]="param.value" name="value-{{i}}" type="number" class="form-control" /> -->
-             <div>
-                <nz-input-number [(ngModel)]="param.value" name="value-{{i}}" type="number" [nzMin]="1" [nzMax]="365" [nzStep]="1"
-                    (keydown)="validateNumberInput($event)">></nz-input-number>
+
+            <div>
+                <ng-container *ngIf="param.name === 'Language'; else numericInput">
+                    <img 
+                        [src]="americanFlagIcon" 
+                        alt="English" 
+                        class="flag" 
+                        [class.selected]="param.value === 1" 
+                        (click)="setLanguage(param, 1)"
+                    />
+                    <img 
+                        [src]="romanianFlagIcon" 
+                        alt="Romanian" 
+                        class="flag" 
+                        [class.selected]="param.value === 2" 
+                        (click)="setLanguage(param, 2)"
+                    />
+                </ng-container>
+                <ng-template #numericInput>
+                    <nz-input-number 
+                        [(ngModel)]="param.value" 
+                        name="value-{{i}}" 
+                        type="number" 
+                        [nzMin]="1" 
+                        [nzMax]="365" 
+                        [nzStep]="1" 
+                        (keydown)="validateNumberInput($event)">
+                    </nz-input-number>
+                </ng-template>
             </div>
+
         </div>
-        <div class="buttonDiv">
-            <button type="submit">Save</button>
-        </div>
-    </div>
-</form>
+        </ng-container>
+    </nz-modal>
+</div>
