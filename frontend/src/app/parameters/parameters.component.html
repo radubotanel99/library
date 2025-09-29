@@ -6,35 +6,37 @@
             <label for="param-{{i}}">{{param.name}}</label>
 
             <div>
-                <ng-container *ngIf="param.name === 'Language'; else numericInput">
+                <nz-input-number 
+                    [(ngModel)]="param.value" 
+                    name="value-{{i}}" 
+                    type="number" 
+                    [nzMin]="1" 
+                    [nzMax]="365" 
+                    [nzStep]="1" 
+                    (keydown)="validateNumberInput($event)">
+                </nz-input-number>
+            </div>
+        </div>
+        <div class="languageDiv">
+            <label>Language</label>
+            <div>
+                <ng-container #languageInput>
                     <img 
                         [src]="americanFlagIcon" 
                         alt="English" 
                         class="flag" 
-                        [class.selected]="param.value === 1" 
-                        (click)="setLanguage(param, 1)"
+                        [class.selected]="selectedLanguage === 'en'" 
+                        (click)="setLangValue('en')"
                     />
                     <img 
                         [src]="romanianFlagIcon" 
                         alt="Romanian" 
                         class="flag" 
-                        [class.selected]="param.value === 2" 
-                        (click)="setLanguage(param, 2)"
+                        [class.selected]="selectedLanguage === 'ro'" 
+                        (click)="setLangValue('ro')"
                     />
                 </ng-container>
-                <ng-template #numericInput>
-                    <nz-input-number 
-                        [(ngModel)]="param.value" 
-                        name="value-{{i}}" 
-                        type="number" 
-                        [nzMin]="1" 
-                        [nzMax]="365" 
-                        [nzStep]="1" 
-                        (keydown)="validateNumberInput($event)">
-                    </nz-input-number>
-                </ng-template>
             </div>
-
         </div>
         </ng-container>
     </nz-modal>

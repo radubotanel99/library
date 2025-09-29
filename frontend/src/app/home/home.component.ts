@@ -5,11 +5,12 @@ import { ParametersComponent } from "../parameters/parameters.component";
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { CustomButtonComponent } from '../ui.components/custom-button/custom-button.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NzCardModule, NzIconModule, ParametersComponent, CustomButtonComponent],
+  imports: [NzCardModule, NzIconModule, ParametersComponent, CustomButtonComponent, TranslateModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

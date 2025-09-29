@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
-import { en_US, NzI18nService } from 'ng-zorro-antd/i18n';
 import { ParameterService } from '../service/parameter.service/parameter.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable } from 'rxjs';
@@ -14,11 +13,13 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CustomButtonComponent } from '../ui.components/custom-button/custom-button.component';
 import { environment } from '../../environments/environment';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NzI18nService, en_US, ro_RO } from 'ng-zorro-antd/i18n';
 
 @Component({
   selector: 'app-parameters',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, NzIconModule, NzInputNumberModule, NzModalModule, NzButtonModule, CustomButtonComponent],
+  imports: [CommonModule, HttpClientModule, FormsModule, NzIconModule, NzInputNumberModule, NzModalModule, NzButtonModule, CustomButtonComponent, TranslateModule],
   templateUrl: './parameters.component.html',
   styleUrl: './parameters.component.css'
 })
@@ -28,7 +29,14 @@ export class ParametersComponent implements OnInit {
   romanianFlagIcon = (environment.production) ? '/frontend/browser/assets/images/romania.png' : '/assets/images/romania.png'
   americanFlagIcon = (environment.production) ? '/frontend/browser/assets/images/america.png' : '/assets/images/america.png';
 
-  constructor(private parameterService: ParameterService, private router: Router, private message: NzMessageService, private i18n: NzI18nService) {
+  selectedLanguage: string = this.translate.currentLang;
+
+  constructor(private parameterService: ParameterService, 
+      private router: Router, 
+      private message: NzMessageService, 
+      private i18n: NzI18nService,
+      public translate: TranslateService
+    ) {
     this.parameters = [];
   }
 
@@ -36,10 +44,19 @@ export class ParametersComponent implements OnInit {
     this.parameterService.getParameters().subscribe(parameters => {
       this.parameters = parameters;
     })
-    this.i18n.setLocale(en_US); 
   }
 
   saveParameters(): void {
+    // save language in local storage in browser
+    this.translate.use(this.selectedLanguage);
+    localStorage.setItem('selectedLanguage', this.selectedLanguage);
+
+    if (this.selectedLanguage === 'ro') {
+      this.i18n.setLocale(ro_RO);
+    } else {
+      this.i18n.setLocale(en_US);
+    }
+
     this.handleParameterSave(this.parameterService.saveParameters(this.parameters));
     this.isVisible = false;
   }
@@ -79,9 +96,10 @@ export class ParametersComponent implements OnInit {
     this.parameterService.getParameters().subscribe(parameters => {
       this.parameters = parameters;
     })
+    this.selectedLanguage = this.translate.currentLang;
   }
 
-  setLanguage(param: IParameter, languageNumber: number) {
-    param.value = languageNumber;
+  setLangValue(langValue: string) {
+    this.selectedLanguage = langValue;
   }
 }

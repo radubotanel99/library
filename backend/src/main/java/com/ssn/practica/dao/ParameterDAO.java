@@ -41,7 +41,8 @@ public class ParameterDAO {
 		parameters.add(
 				new Parameter(GeneralConstants.DAYS_TO_KEEP_BOOK, GeneralConstants.DEFAULT_MAX_DAYS_TO_KEEP_BOOKS));
 		parameters.add(new Parameter(GeneralConstants.MAX_BOOKS_PER_USER, GeneralConstants.DEFAULT_MAX_RENTS_BY_USER));
-		parameters.add(new Parameter(GeneralConstants.LANGUAGE_PARAM, GeneralConstants.ENGLISH));
+		// parameters.add(new Parameter(GeneralConstants.LANGUAGE_PARAM,
+		// GeneralConstants.ENGLISH));
 	}
 
 	public void saveParameters(List<Parameter> newValuesParameters) {
@@ -53,7 +54,8 @@ public class ParameterDAO {
 			}
 		}
 		saveParametersToFile();
-		// run rent daemon (GeneralConstants.MAX_BOOKS_PER_USER parameter may changed)
+		// run rent daemon (GeneralConstants.MAX_BOOKS_PER_USER parameter may have been
+		// changed)
 		new Thread(new RentTask()).start();
 	}
 
