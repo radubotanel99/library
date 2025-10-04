@@ -58,11 +58,35 @@
 
     "MESSAGES": {
       "PARAMS_SUCCESS": "Valorile au fost setate cu succes.",
-      "UNEXPECTED_ERROR": "A apărut o eroare neașteptată. Contactați administratorul."
+      "UNEXPECTED_ERROR": "A apărut o eroare neașteptată. Contactați administratorul.",
+      "BOOK_SAVED_SUCCESS": "Cartea a fost salvată cu succes.",
+      "USER_SAVED_SUCCESS": "Utilizatorul a fost salvat cu succes.",
+      "CATEGORY_SAVED_SUCCESS": "Categoria a fost salvată cu succes.",
+      "RENT_SAVED_SUCCESS": "Împrumutul a fost salvat cu succes.",
+      "BOOK_DELETED_SUCCESS": "Cartea a fost ștearsă cu succes.",
+      "USER_DELETED_SUCCESS": "Utilizatorul a fost șters cu succes.",
+      "CATEGORY_DELETED_SUCCESS": "Categoria a fost ștearsă cu succes.",
+      "RENT_FINISHED_SUCCESS": "Împrumutul a fost finalizat cu succes."
     },
 
     "ERRORS": {
-      "INVALID_NUMBER": "Număr invalid pentru: \"{{paramName}}\""
+      "INVALID_PARAMETER_NUMBER": "Număr invalid pentru: \"{{paramName}}\"",
+      "INVALID_BOOK_NUMBER": "Număr de carte invalid.",
+      "INVALID_BOOK_TITLE": "Titlul cărții invalid.",
+      "INVALID_BOOK_CATEGORY": "Categoria cărții invalidă.",
+      "DUPLICATE_BOOK_NUMBER": "Număr de carte duplicat.",
+      "DELETE_RENT_BOOK_ERROR": "Cartea este împrumutată, nu se poate șterge.",
+      "INVALID_CATEGORY_NAME": "Nume categorie invalid.",
+      "DUPLICATE_CATEGORY_NAME": "Nume categorie duplicat.",
+      "CATEGORY_MISSING": "Categoria lipsă.",
+      "DELETE_CATEGORY_BOOKS_ERROR": "Există cărți în această categorie, nu se poate șterge.",
+      "INVALID_USER_NAME": "Nume utilizator invalid.",
+      "DUPLICATE_USER_NAME": "Nume utilizator duplicat.",
+      "DELETE_USER_BOOKS_ERROR": "Acest utilizator are cărți împrumutate, nu se poate șterge.",
+      "INVALID_RENT_USER": "Utilizator împrumut invalid.",
+      "INVALID_RENT_BOOK_NUMBER": "Număr de carte invalid pentru acest împrumut.",
+      "BOOK_ALREADY_RENT_ERROR": "Carte deja împrumutată.",
+      "USER_TOO_MANY_RENTS_ERROR": "Utilizatorul are prea multe cărți împrumutate."
     },
 
     "PARAMS": {

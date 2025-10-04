@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
+import { ErrorHandlerService } from '../service/error-handler-service';
 
 @Component({
   selector: 'app-add-category',
@@ -21,7 +22,7 @@ export class EditCategoryComponent implements OnInit {
   category: ICategory = createDefaultCategory();
   isEditMode = false;
 
-  constructor(private categoryService: CategoryService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog, private message: NzMessageService ) {
+  constructor(private categoryService: CategoryService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog, private message: NzMessageService, private errorHandler: ErrorHandlerService ) {
 
   }
 
@@ -36,7 +37,10 @@ export class EditCategoryComponent implements OnInit {
   }
 
   addCategory() {
-    this.categoryService.addCategory(this.category).subscribe({
+    this.errorHandler.handleApiCall(
+      this.categoryService.addCategory(this.category),
+      'MESSAGES.CATEGORY_SAVED_SUCCESS'
+    ).subscribe({
       next: () => this.router.navigate(['/categories'])
     });
   }
@@ -50,18 +54,11 @@ export class EditCategoryComponent implements OnInit {
   }
 
   handleBookSave(observable: Observable<ICategory>): void {
-    observable.subscribe({
-      next: () => {
-        this.message.success('Category saved successfully.')
-        this.router.navigate(['/categories']);
-      },
-      error: (error: any) => {
-        if (error.status === 400) {
-          this.message.error(error.error.message);
-        } else {
-          this.message.error('An unexpected error occurred. Contact the administrator.');
-        }
-      }
+    this.errorHandler.handleApiCall(
+      observable,
+      'MESSAGES.CATEGORY_SAVED_SUCCESS'
+    ).subscribe({
+      next: () => this.router.navigate(['/categories'])
     });
   }
 }

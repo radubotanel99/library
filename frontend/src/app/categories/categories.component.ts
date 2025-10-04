@@ -17,6 +17,7 @@ import { CustomButtonComponent } from "../ui.components/custom-button/custom-but
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { ExcelService } from '../helpers/excel-service';
 import { TranslateModule } from '@ngx-translate/core';
+import { ErrorHandlerService } from '../service/error-handler-service';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,7 @@ export class CategoriesComponent implements OnInit {
   categoriesToShow: ICategory[] = [];
   searchedText: string = '';
 
-  constructor(private categoryService: CategoryService, private router: Router, private i18n: NzI18nService, private message: NzMessageService) {
+  constructor(private categoryService: CategoryService, private router: Router, private i18n: NzI18nService, private message: NzMessageService, private errorHandler: ErrorHandlerService) {
     this.categories = [];
   }
 
@@ -45,22 +46,17 @@ export class CategoriesComponent implements OnInit {
 
 
   deleteCategory(categoryId: number): void {
-    this.categoryService.deleteCategory(categoryId).subscribe({
+    this.errorHandler.handleApiCall(
+      this.categoryService.deleteCategory(categoryId),
+      'MESSAGES.CATEGORY_DELETED_SUCCESS'
+    ).subscribe({
       next: () => {
-        this.message.success("Successfully deleted.");
         this.categoryService.getCategories().subscribe(categories => {
           this.categories = categories;
           this.onChangeSearchText(this.searchedText);
         });
-      },
-      error: (error: any) => {
-        if (error.status === 400) {
-          this.message.error(error.error.message);
-        } else {
-          this.message.error('An unexpected error occurred. Contact the administrator.');
-        }
       }
-   });
+    });
   }
 
   editCategory(categoryId: number): void {

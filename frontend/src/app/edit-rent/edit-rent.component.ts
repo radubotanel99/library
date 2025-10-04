@@ -13,6 +13,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
 import { TranslateModule } from '@ngx-translate/core';
+import { ErrorHandlerService } from '../service/error-handler-service';
 
 @Component({
   selector: 'app-add-rent',
@@ -30,7 +31,7 @@ export class EditRentComponent implements OnInit {
   bookNumberInput : number = 0;
 
   constructor(private rentService: RentService, private userService: UserService, private bookService: BookService, private router: Router, 
-      private route: ActivatedRoute, private message: NzMessageService,) {
+      private route: ActivatedRoute, private message: NzMessageService, private errorHandler: ErrorHandlerService) {
 
   }
 
@@ -45,7 +46,10 @@ export class EditRentComponent implements OnInit {
   }
 
   addRent() {
-    this.rentService.addRent(this.rent).subscribe({
+    this.errorHandler.handleApiCall(
+      this.rentService.addRent(this.rent),
+      'MESSAGES.RENT_SAVED_SUCCESS'
+    ).subscribe({
       next: () => this.router.navigate(['/rents'])
     });
   }
@@ -57,18 +61,11 @@ export class EditRentComponent implements OnInit {
   }
 
   handleBookSave(observable: Observable<IRent>): void {
-    observable.subscribe({
-      next: () => {
-        this.message.success('Rent saved successfully.');
-        this.router.navigate(['/rents']);
-      },
-      error: (error: any) => {
-        if (error.status === 400) {
-          this.message.error(error.error.message);
-        } else {
-          this.message.error('An unexpected error occurred. Contact the administrator.');
-        }
-      }
+    this.errorHandler.handleApiCall(
+      observable,
+      'MESSAGES.RENT_SAVED_SUCCESS'
+    ).subscribe({
+      next: () => this.router.navigate(['/rents'])
     });
   }
 

@@ -12,6 +12,7 @@ import { PageTitleComponent } from "../ui.components/page-title/page-title.compo
 import { SearchFilterComponent } from "../ui.components/search-filter/search-filter.component";
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
 import { TranslateModule } from '@ngx-translate/core';
+import { ErrorHandlerService } from '../service/error-handler-service';
 
 @Component({
   selector: 'app-add-book',
@@ -27,7 +28,7 @@ export class EditBookComponent implements OnInit {
   categories: ICategory[] = [];
   isEditMode = false;
 
-  constructor(private bookService: BookService, private categoryService: CategoryService, private router: Router, private route: ActivatedRoute, private message: NzMessageService) {
+  constructor(private bookService: BookService, private categoryService: CategoryService, private router: Router, private route: ActivatedRoute, private message: NzMessageService, private errorHandler: ErrorHandlerService) {
 
   }
 
@@ -48,7 +49,10 @@ export class EditBookComponent implements OnInit {
   }
 
   addBook() {
-    this.bookService.addBook(this.book).subscribe({
+    this.errorHandler.handleApiCall(
+      this.bookService.addBook(this.book),
+      'MESSAGES.BOOK_SAVED_SUCCESS'
+    ).subscribe({
       next: () => this.router.navigate(['/books'])
     });
   }
@@ -66,18 +70,11 @@ export class EditBookComponent implements OnInit {
   }
 
   handleBookSave(observable: Observable<IBook>): void {
-    observable.subscribe({
-      next: () => {
-        this.message.success('Book saved successfully.');
-        this.router.navigate(['/books']);
-      },
-      error: (error: any) => {
-        if (error.status === 400 && error.error.message) {
-          this.message.error(error.error.message);
-        } else {
-          this.message.error('An unexpected error occurred. Contact the administrator.');
-        }
-      }
+    this.errorHandler.handleApiCall(
+      observable,
+      'MESSAGES.BOOK_SAVED_SUCCESS'
+    ).subscribe({
+      next: () => this.router.navigate(['/books'])
     });
   }
 

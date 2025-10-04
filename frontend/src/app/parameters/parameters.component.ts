@@ -59,40 +59,16 @@ export class ParametersComponent implements OnInit {
       this.i18n.setLocale(en_US);
     }
 
-    this.handleParameterSave(this.parameterService.saveParameters(this.parameters));
-    // this.errorHandler
-    //   .handleApiCall(
-    //     this.parameterService.saveParameters(this.parameters),
-    //     'MESSAGES.PARAMS_SUCCESS'
-    //   )
-    //   .subscribe();
+    this.errorHandler
+      .handleApiCall(
+        this.parameterService.saveParameters(this.parameters),
+        'MESSAGES.PARAMS_SUCCESS'
+      )
+      .subscribe();
     this.isVisible = false;
   }
 
-  handleParameterSave(observable: Observable<IParameter[]>): void {
-    observable.subscribe({
-      next: () => {
-        this.message.success(this.translate.instant('MESSAGES.SUCCESS'));
-      },
-      error: (error: any) => {
-        if (error.status === 400 && error.error?.messageKey) {
-          const paramName = error.error.param;
-          const translatedParamName = this.translate.instant('PARAMS.' + paramName);
-          
-          const translatedMsg = this.translate.instant(
-            error.error.messageKey,
-            { paramName: translatedParamName }
-          );
-          
-          this.message.error(translatedMsg);
-        } else if (error.status === 400) {
-          this.message.error(error.error?.message || error.error);
-        } else {
-          this.message.error(this.translate.instant('MESSAGES.UNEXPECTED_ERROR'));
-        }
-      }
-    });
-  }
+  // This method is no longer needed as we use ErrorHandlerService directly
 
   validateNumberInput(event: KeyboardEvent) {
     const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete'];

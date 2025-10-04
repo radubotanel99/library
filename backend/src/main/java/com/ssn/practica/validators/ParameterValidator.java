@@ -13,7 +13,7 @@ public class ParameterValidator {
 	public Response validateParameters(List<Parameter> parameters) {
 		for (Parameter par : parameters) {
 			if (par.getValue() <= 0) {
-				return ResponseUtils.response(GeneralConstants.INVALID_NUMBER, par.getName());
+				return ResponseUtils.response(GeneralConstants.INVALID_PARAMETER_NUMBER, par.getName());
 			}
 		}
 		return null;

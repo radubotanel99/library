@@ -58,11 +58,35 @@
 
     "MESSAGES": {
       "PARAMS_SUCCESS": "Values set successfully.",
-      "UNEXPECTED_ERROR": "An unexpected error occurred. Contact the administrator."
+      "UNEXPECTED_ERROR": "An unexpected error occurred. Contact the administrator.",
+      "BOOK_SAVED_SUCCESS": "Book saved successfully.",
+      "USER_SAVED_SUCCESS": "User saved successfully.",
+      "CATEGORY_SAVED_SUCCESS": "Category saved successfully.",
+      "RENT_SAVED_SUCCESS": "Rent saved successfully.",
+      "BOOK_DELETED_SUCCESS": "Book deleted successfully.",
+      "USER_DELETED_SUCCESS": "User deleted successfully.",
+      "CATEGORY_DELETED_SUCCESS": "Category deleted successfully.",
+      "RENT_FINISHED_SUCCESS": "Rent finished successfully."
     },
 
     "ERRORS": {
-      "INVALID_NUMBER": "Invalid number for: \"{{paramName}}\""
+      "INVALID_PARAMETER_NUMBER": "Invalid number for: \"{{paramName}}\"",
+      "INVALID_BOOK_NUMBER": "Invalid book number.",
+      "INVALID_BOOK_TITLE": "Invalid book title.",
+      "INVALID_BOOK_CATEGORY": "Invalid book category.",
+      "DUPLICATE_BOOK_NUMBER": "Duplicate book number.",
+      "DELETE_RENT_BOOK_ERROR": "Book rent, delete not possible.",
+      "INVALID_CATEGORY_NAME": "Invalid category name.",
+      "DUPLICATE_CATEGORY_NAME": "Duplicate category name.",
+      "CATEGORY_MISSING": "Category missing.",
+      "DELETE_CATEGORY_BOOKS_ERROR": "There are books in this category, delete not possible.",
+      "INVALID_USER_NAME": "Invalid user name.",
+      "DUPLICATE_USER_NAME": "Duplicate user name.",
+      "DELETE_USER_BOOKS_ERROR": "This user has rented books, delete not possible.",
+      "INVALID_RENT_USER": "Invalid rent user.",
+      "INVALID_RENT_BOOK_NUMBER": "Invalid book number for this rent.",
+      "BOOK_ALREADY_RENT_ERROR": "Book already rented.",
+      "USER_TOO_MANY_RENTS_ERROR": "User has too many books rented."
     },
 
     "PARAMS": {

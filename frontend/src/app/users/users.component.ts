@@ -17,6 +17,7 @@ import { CustomButtonComponent } from "../ui.components/custom-button/custom-but
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { ExcelService } from '../helpers/excel-service';
 import { TranslateModule } from '@ngx-translate/core';
+import { ErrorHandlerService } from '../service/error-handler-service';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,7 @@ export class UsersComponent implements OnInit {
   usersToShow : IUser[] = []; 
   searchedText: string = '';
 
-  constructor(private userService: UserService, private router: Router, private i18n: NzI18nService, private message: NzMessageService) {
+  constructor(private userService: UserService, private router: Router, private i18n: NzI18nService, private message: NzMessageService, private errorHandler: ErrorHandlerService) {
     this.users = [];
   }
 
@@ -45,20 +46,15 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(userId: number): void {
-    this.userService.deleteUser(userId).subscribe({
+    this.errorHandler.handleApiCall(
+      this.userService.deleteUser(userId),
+      'MESSAGES.USER_DELETED_SUCCESS'
+    ).subscribe({
       next: () => {
-        this.message.success("Successfully deleted.");
         this.userService.getUsers().subscribe(users => {
           this.users = users;
           this.onChangeSearchText(this.searchedText);
         });
-      },
-      error: (error: any) => {
-        if (error.status === 400) {
-          this.message.error(error.error.message);
-        } else {
-          this.message.error('An unexpected error occurred. Contact the administrator.');
-        }
       }
     });
   }

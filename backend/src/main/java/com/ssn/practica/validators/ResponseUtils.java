@@ -9,6 +9,10 @@ public class ResponseUtils {
 		return Response.status(Response.Status.BAD_REQUEST).entity(new ErrorResponse(message, paramName))
 				.type(MediaType.APPLICATION_JSON).build();
 	}
+
+	protected static Response response(String message) {
+		return response(message, null);
+	}
 }
 
 class ErrorResponse {

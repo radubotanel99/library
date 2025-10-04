@@ -9,6 +9,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
 import { TranslateModule } from '@ngx-translate/core';
+import { ErrorHandlerService } from '../service/error-handler-service';
 
 @Component({
   selector: 'app-add-user',
@@ -21,7 +22,7 @@ export class EditUserComponent implements OnInit {
   user: IUser = createDefaultUser();
   isEditMode = false;
 
-  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private message: NzMessageService) {
+  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private message: NzMessageService, private errorHandler: ErrorHandlerService) {
 
   }
 
@@ -36,7 +37,10 @@ export class EditUserComponent implements OnInit {
   }
 
   addUser() {
-    this.userService.addUser(this.user).subscribe({
+    this.errorHandler.handleApiCall(
+      this.userService.addUser(this.user),
+      'MESSAGES.USER_SAVED_SUCCESS'
+    ).subscribe({
       next: () => this.router.navigate(['/users'])
     });
   }
@@ -50,18 +54,11 @@ export class EditUserComponent implements OnInit {
   }
 
   handleUserSave(observable: Observable<IUser>): void {
-    observable.subscribe({
-      next: () => {
-        this.message.success('User saved successfully.');
-        this.router.navigate(['/users']);
-      },
-      error: (error: any) => {
-        if (error.status === 400) {
-          this.message.error(error.error.message);
-        } else {
-          this.message.error('An unexpected error occurred. Contact the administrator.');
-        }
-      }
+    this.errorHandler.handleApiCall(
+      observable,
+      'MESSAGES.USER_SAVED_SUCCESS'
+    ).subscribe({
+      next: () => this.router.navigate(['/users'])
     });
   }
 }

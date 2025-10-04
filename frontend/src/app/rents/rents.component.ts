@@ -18,6 +18,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ExcelService } from '../helpers/excel-service';
 import { TranslateModule } from '@ngx-translate/core';
+import { ErrorHandlerService } from '../service/error-handler-service';
 
 @Component({
   selector: 'app-home',
@@ -40,7 +41,7 @@ export class RentsComponent implements OnInit {
   searchNumberVisible = false;
   searchedText : string = '';
   
-  constructor(private rentService: RentService, private router: Router, private i18n: NzI18nService, private message: NzMessageService) {
+  constructor(private rentService: RentService, private router: Router, private i18n: NzI18nService, private message: NzMessageService, private errorHandler: ErrorHandlerService) {
     this.rents = [];
   }
 
@@ -58,9 +59,11 @@ export class RentsComponent implements OnInit {
   }
 
   finishRent(rentId: number): void {
-    this.rentService.finishRent(rentId).subscribe({
+    this.errorHandler.handleApiCall(
+      this.rentService.finishRent(rentId),
+      'MESSAGES.RENT_FINISHED_SUCCESS'
+    ).subscribe({
       next: () => {
-        this.message.success("Rent finished!");
         this.rentService.getRents().subscribe(rents => {
           this.rents = rents;
           this.applyFilters();

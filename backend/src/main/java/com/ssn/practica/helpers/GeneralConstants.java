@@ -10,5 +10,22 @@ public interface GeneralConstants {
 	public static final int ENGLISH = 1;
 
 	public static final String ERRORS = "ERRORS.";
-	public static final String INVALID_NUMBER = ERRORS + "INVALID_NUMBER";
+	public static final String INVALID_PARAMETER_NUMBER = ERRORS + "INVALID_PARAMETER_NUMBER";
+	public static final String INVALID_BOOK_NUMBER = ERRORS + "INVALID_BOOK_NUMBER";
+	public static final String INVALID_BOOK_TITLE = ERRORS + "INVALID_BOOK_TITLE";
+	public static final String INVALID_BOOK_CATEGORY = ERRORS + "INVALID_BOOK_CATEGORY";
+	public static final String DUPLICATE_BOOK_NUMBER = ERRORS + "DUPLICATE_BOOK_NUMBER";
+	public static final String DELETE_RENT_BOOK_ERROR = ERRORS + "DELETE_RENT_BOOK_ERROR";
+	public static final String INVALID_CATEGORY_NAME = ERRORS + "INVALID_CATEGORY_NAME";
+	public static final String DUPLICATE_CATEGORY_NAME = ERRORS + "DUPLICATE_CATEGORY_NAME";
+	public static final String CATEGORY_MISSING = ERRORS + "CATEGORY_MISSING";
+	public static final String DELETE_CATEGORY_BOOKS_ERROR = ERRORS + "DELETE_CATEGORY_BOOKS_ERROR";
+	public static final String INVALID_USER_NAME = ERRORS + "INVALID_USER_NAME";
+	public static final String DUPLICATE_USER_NAME = ERRORS + "DUPLICATE_USER_NAME";
+	public static final String DELETE_USER_BOOKS_ERROR = ERRORS + "DELETE_USER_BOOKS_ERROR";
+	public static final String INVALID_RENT_USER = ERRORS + "INVALID_RENT_USER";
+	public static final String INVALID_RENT_BOOK_NUMBER = ERRORS + "INVALID_RENT_BOOK_NUMBER";
+	public static final String BOOK_ALREADY_RENT_ERROR = ERRORS + "BOOK_ALREADY_RENT_ERROR";
+	public static final String USER_TOO_MANY_RENTS_ERROR = ERRORS + "USER_TOO_MANY_RENTS_ERROR";
+
 }
