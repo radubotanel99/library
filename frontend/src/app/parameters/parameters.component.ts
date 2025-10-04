@@ -15,6 +15,7 @@ import { CustomButtonComponent } from '../ui.components/custom-button/custom-but
 import { environment } from '../../environments/environment';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NzI18nService, en_US, ro_RO } from 'ng-zorro-antd/i18n';
+import { ErrorHandlerService } from '../service/error-handler-service';
 
 @Component({
   selector: 'app-parameters',
@@ -35,7 +36,8 @@ export class ParametersComponent implements OnInit {
       private router: Router, 
       private message: NzMessageService, 
       private i18n: NzI18nService,
-      public translate: TranslateService
+      public translate: TranslateService,
+      private errorHandler: ErrorHandlerService
     ) {
     this.parameters = [];
   }
@@ -58,19 +60,35 @@ export class ParametersComponent implements OnInit {
     }
 
     this.handleParameterSave(this.parameterService.saveParameters(this.parameters));
+    // this.errorHandler
+    //   .handleApiCall(
+    //     this.parameterService.saveParameters(this.parameters),
+    //     'MESSAGES.PARAMS_SUCCESS'
+    //   )
+    //   .subscribe();
     this.isVisible = false;
   }
 
   handleParameterSave(observable: Observable<IParameter[]>): void {
     observable.subscribe({
       next: () => {
-        this.message.success('Values set successfully.');
+        this.message.success(this.translate.instant('MESSAGES.SUCCESS'));
       },
       error: (error: any) => {
-        if (error.status === 400) {
-          this.message.error(error.error.message);
+        if (error.status === 400 && error.error?.messageKey) {
+          const paramName = error.error.param;
+          const translatedParamName = this.translate.instant('PARAMS.' + paramName);
+          
+          const translatedMsg = this.translate.instant(
+            error.error.messageKey,
+            { paramName: translatedParamName }
+          );
+          
+          this.message.error(translatedMsg);
+        } else if (error.status === 400) {
+          this.message.error(error.error?.message || error.error);
         } else {
-          this.message.error('An unexpected error occurred. Contact the administrator.');
+          this.message.error(this.translate.instant('MESSAGES.UNEXPECTED_ERROR'));
         }
       }
     });

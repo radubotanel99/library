@@ -1,19 +1,19 @@
 <div class="container">
-    <app-page-title [title]="'Add rent'"></app-page-title>
+    <app-page-title [title]="'ADD_RENT' | translate"></app-page-title>
     <form (ngSubmit)="saveRent()">
         <div class="mainDiv">
             <div class="form-group">
-                <label for="number">Book number</label>
+                <label for="number">{{ 'BOOK_NUMBER' | translate }}</label>
                 <input [(ngModel)]="bookNumberInput" name="number" type="number" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="user">User</label>
+                <label for="user">{{ 'USER' | translate }}</label>
                 <select [(ngModel)]="rent.user" name="user" class="form-control" id="user" required>
                     <option *ngFor="let user of users" [ngValue]="user">{{ user.name }}</option>
                 </select>
             </div>
             <div class="buttonDiv">
-                <app-custom-button text="Save rent" (click)="true"></app-custom-button>
+                <app-custom-button text="{{ 'SAVE_RENT' | translate }}" (click)="true"></app-custom-button>
             </div>
         </div>
     </form>

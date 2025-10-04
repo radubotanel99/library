@@ -18,12 +18,13 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { ExcelService } from '../helpers/excel-service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, HttpClientModule, NzTableModule, NzDropDownModule, FormsModule,
-    NzIconModule, CustomButtonComponent, NzTableComponent, NzDatePickerModule, NzInputModule, SearchFilterComponent, PageTitleComponent, NzPopconfirmModule],
+    NzIconModule, CustomButtonComponent, NzTableComponent, NzDatePickerModule, NzInputModule, SearchFilterComponent, PageTitleComponent, NzPopconfirmModule, TranslateModule],
   templateUrl: './deleted-books.component.html',
   styleUrl: './deleted-books.component.css',
 })

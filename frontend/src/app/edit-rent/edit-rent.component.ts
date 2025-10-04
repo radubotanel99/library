@@ -12,11 +12,12 @@ import { BookService } from '../service/book.service/book.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-rent',
   standalone: true,
-  imports: [FormsModule, CommonModule, PageTitleComponent, CustomButtonComponent],
+  imports: [FormsModule, CommonModule, PageTitleComponent, CustomButtonComponent, TranslateModule],
   templateUrl: './edit-rent.component.html',
   styleUrl: './edit-rent.component.css'
 })

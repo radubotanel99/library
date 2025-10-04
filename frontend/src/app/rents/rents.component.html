@@ -1,8 +1,8 @@
 <div class="container">
-    <app-page-title [title]="'Rents'"></app-page-title>
+    <app-page-title [title]="'RENTS' | translate"></app-page-title>
 
-    <app-custom-button text="Add rent" (click)="addRent()"></app-custom-button>
-    <app-custom-button text="Export" (click)="exportRents()"></app-custom-button>
+    <app-custom-button text="{{ 'ADD_RENT' | translate }}" (click)="addRent()"></app-custom-button>
+    <app-custom-button text="{{ 'EXPORT' | translate }}" (click)="exportRents()"></app-custom-button>
     <app-search-filter [value]="this.searchedText" (valueChange)="onChangeSearchText($event)"></app-search-filter>
 
     <nz-table #nzTable [nzData]="this.rentsToShow" [nzSize]="'small'" nzTableLayout="fixed" class="table table-striped table-hover"
@@ -12,17 +12,17 @@
                 <th scope="col" 
                 [(nzSortOrder)]="userColumn.sortOrder!" 
                 [nzSortFn]="userColumn.sortFn!">
-                    User</th>
+                    {{ 'USER' | translate }}</th>
 
                 <th scope="col" 
                 [(nzSortOrder)]="bookColumn.sortOrder!" 
                 [nzSortFn]="bookColumn.sortFn!">
-                  Book</th>
+                  {{ 'BOOK' | translate }}</th>
 
                 <th scope="col" 
                 [(nzSortOrder)]="bookNumberColumn.sortOrder!" 
                 [nzSortFn]="bookNumberColumn.sortFn!" nzCustomFilter>
-                    Book Number
+                    {{ 'BOOK_NUMBER' | translate }}
                     <nz-filter-trigger [(nzVisible)]="searchNumberVisible" [nzActive]="searchNumberValue.length > 0" [nzDropdownMenu]="numberSearch">
                         <span nz-icon nzType="search"></span>
                     </nz-filter-trigger>
@@ -35,12 +35,12 @@
                 [nzFilters]="stateColumn.listOfFilter!"
                 [nzFilterFn]="stateColumn.filterFn!"
                 (nzFilterChange)="onFilterChange($event)">
-                  State</th>
+                  {{ 'STATE' | translate }}</th>
 
                 <th scope="col" 
                 [(nzSortOrder)]="createdAtColumn.sortOrder!" 
                 [nzSortFn]="createdAtColumn.sortFn!" nzCustomFilter>
-                    Created
+                    {{ 'CREATED' | translate }}
                     <nz-filter-trigger [(nzVisible)]="this.dateCreatedFilterVisible" [nzDropdownMenu]="createdFilter">
                         <span nz-icon nzType="filter"></span>
                     </nz-filter-trigger>
@@ -49,13 +49,13 @@
                 <th scope="col" 
                 [(nzSortOrder)]="finishedAtColumn.sortOrder!" 
                 [nzSortFn]="finishedAtColumn.sortFn!" nzCustomFilter>
-                    Finished
+                    {{ 'FINISHED' | translate }}
                     <nz-filter-trigger [(nzVisible)]="this.dateFinishedFilterVisible" [nzDropdownMenu]="finishedFilter">
                         <span nz-icon nzType="filter"></span>
                     </nz-filter-trigger>
                 </th>
 
-                <th scope="col">Actions</th>
+                <th scope="col">{{ 'ACTIONS' | translate }}</th>
             </tr>
         </thead>
         <tbody>
@@ -69,8 +69,8 @@
                 <td>
                     <button *ngIf="(rent.state === 'ACTIVE' || rent.state === 'LATE')" 
                     nz-popconfirm
-                    nzPopconfirmTitle="Are you sure?"
-                    (nzOnConfirm)="finishRent(rent.id)">Finish</button>
+                    nzPopconfirmTitle="{{ 'ARE_YOU_SURE' | translate }}"
+                    (nzOnConfirm)="finishRent(rent.id)">{{ 'FINISH' | translate }}</button>
 
                     <!-- <button 
                         nz-popconfirm
@@ -85,9 +85,9 @@
     <nz-dropdown-menu #numberSearch="nzDropdownMenu">
         <div class="ant-table-filter-dropdown">
           <div class="search-box">
-            <input [(ngModel)]="searchNumberValue" type="number" nz-input placeholder="Search number"/>
-            <button nz-button nzSize="small" nzType="primary" (click)="searchNumber()" class="search-button">Search</button>
-            <button nz-button nzSize="small" (click)="resetNumber()">Reset</button>
+            <input [(ngModel)]="searchNumberValue" type="number" nz-input placeholder="{{ 'SEARCH_NUMBER' | translate }}"/>
+            <button nz-button nzSize="small" nzType="primary" (click)="searchNumber()" class="search-button">{{ 'SEARCH' | translate }}</button>
+            <button nz-button nzSize="small" (click)="resetNumber()">{{ 'RESET' | translate }}</button>
           </div>
         </div>
       </nz-dropdown-menu>
@@ -96,8 +96,8 @@
         <div class="ant-table-filter-dropdown">
             <div class="search-box">
             <nz-range-picker class="rangePicker" [(ngModel)]="this.dateCreatedFilterValue"></nz-range-picker>
-            <button nz-button nzSize="small" nzType="primary" (click)="searchCreatedDateFilter()" class="search-button">Search</button>
-            <button nz-button nzSize="small" (click)="resetCreatedDateFilter()">Reset</button>
+            <button nz-button nzSize="small" nzType="primary" (click)="searchCreatedDateFilter()" class="search-button">{{ 'SEARCH' | translate }}</button>
+            <button nz-button nzSize="small" (click)="resetCreatedDateFilter()">{{ 'RESET' | translate }}</button>
             </div>
         </div>
     </nz-dropdown-menu>
@@ -106,8 +106,8 @@
         <div class="ant-table-filter-dropdown">
             <div class="search-box">
             <nz-range-picker class="rangePicker" [(ngModel)]="this.dateFinishedFilterValue"></nz-range-picker>
-            <button nz-button nzSize="small" nzType="primary" (click)="searchFinishedDateFilter()" class="search-button">Search</button>
-            <button nz-button nzSize="small" (click)="resetFinishedDateFilter()">Reset</button>
+            <button nz-button nzSize="small" nzType="primary" (click)="searchFinishedDateFilter()" class="search-button">{{ 'SEARCH' | translate }}</button>
+            <button nz-button nzSize="small" (click)="resetFinishedDateFilter()">{{ 'RESET' | translate }}</button>
             </div>
         </div>
     </nz-dropdown-menu>

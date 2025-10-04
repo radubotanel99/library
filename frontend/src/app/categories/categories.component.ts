@@ -16,12 +16,13 @@ import { PageTitleComponent } from "../ui.components/page-title/page-title.compo
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { ExcelService } from '../helpers/excel-service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, HttpClientModule, NzTableModule, NzDropDownModule, FormsModule, NzIconModule, SearchFilterComponent, PageTitleComponent, 
-    CustomButtonComponent, NzPopconfirmModule],
+    CustomButtonComponent, NzPopconfirmModule, TranslateModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })

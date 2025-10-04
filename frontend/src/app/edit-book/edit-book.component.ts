@@ -11,11 +11,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
 import { SearchFilterComponent } from "../ui.components/search-filter/search-filter.component";
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-book',
   standalone: true,
-  imports: [FormsModule, CommonModule, PageTitleComponent, SearchFilterComponent, CustomButtonComponent],
+  imports: [FormsModule, CommonModule, PageTitleComponent, SearchFilterComponent, CustomButtonComponent, TranslateModule],
   templateUrl: './edit-book.component.html',
   styleUrl: './edit-book.component.css'
 })

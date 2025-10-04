@@ -1,6 +1,6 @@
 
   <nz-input-group [nzPrefix]="prefixIconSearch">
-    <input type="text" nz-input placeholder="Search" nzSize="small" [(ngModel)]="this.value" (ngModelChange)="onModelChange($event)"/>
+    <input type="text" nz-input placeholder="{{ 'SEARCH' | translate }}" nzSize="small" [(ngModel)]="this.value" (ngModelChange)="onModelChange($event)"/>
   </nz-input-group>
   <ng-template #prefixIconSearch>
     <span nz-icon nzType="search"></span>

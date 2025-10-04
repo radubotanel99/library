@@ -1,6 +1,6 @@
 <div>
-    <app-custom-button text="Parameters" (click)="showModal()"></app-custom-button>
-    <nz-modal [(nzVisible)]="isVisible" [nzOkText]="'Save'" nzTitle="Parameters" (nzOnCancel)="handleCancel()" (nzOnOk)="saveParameters()">
+    <app-custom-button text="{{ 'PARAMETERS' | translate }}" (click)="showModal()"></app-custom-button>
+    <nz-modal [(nzVisible)]="isVisible" [nzOkText]="'SAVE' | translate" nzTitle="{{ 'PARAMETERS' | translate }}" (nzOnCancel)="handleCancel()" (nzOnOk)="saveParameters()">
         <ng-container *nzModalContent>
         <div class="form-group" *ngFor="let param of parameters; let i = index">
             <label for="param-{{i}}">{{param.name}}</label>
@@ -18,19 +18,19 @@
             </div>
         </div>
         <div class="languageDiv">
-            <label>Language</label>
+            <label>{{ 'LANGUAGE' | translate }}</label>
             <div>
                 <ng-container #languageInput>
                     <img 
                         [src]="americanFlagIcon" 
-                        alt="English" 
+                        alt="{{ 'ENGLISH' | translate }}" 
                         class="flag" 
                         [class.selected]="selectedLanguage === 'en'" 
                         (click)="setLangValue('en')"
                     />
                     <img 
                         [src]="romanianFlagIcon" 
-                        alt="Romanian" 
+                        alt="{{ 'ROMANIAN' | translate }}" 
                         class="flag" 
                         [class.selected]="selectedLanguage === 'ro'" 
                         (click)="setLangValue('ro')"

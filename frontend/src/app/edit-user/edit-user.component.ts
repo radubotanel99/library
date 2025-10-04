@@ -8,11 +8,12 @@ import { Observable } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PageTitleComponent } from "../ui.components/page-title/page-title.component";
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-user',
   standalone: true,
-  imports: [FormsModule, CommonModule, PageTitleComponent, CustomButtonComponent],
+  imports: [FormsModule, CommonModule, PageTitleComponent, CustomButtonComponent, TranslateModule],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.css'
 })

@@ -1,21 +1,21 @@
 <div class="container">
-    <app-page-title [title]="isEditMode ? 'Edit Book' : 'Add Book'"></app-page-title>
+    <app-page-title [title]="isEditMode ? ('EDIT_BOOK' | translate) : ('ADD_BOOK' | translate)"></app-page-title>
     <form (ngSubmit)="saveBook()">
         <div class="mainDiv">
             <div class="form-group">
-                <label for="title">Title</label>
+                <label for="title">{{ 'TITLE' | translate }}</label>
                 <input [(ngModel)]="book.title" name="title" type="text" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="author">Author</label>
+                <label for="author">{{ 'AUTHOR' | translate }}</label>
                 <input [(ngModel)]="book.author" name="author" type="text" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="bookNumber">Book Number</label>
+                <label for="bookNumber">{{ 'BOOK_NUMBER' | translate }}</label>
                 <input [(ngModel)]="book.bookNumber" name="bookNumber" type="number" class="form-control" />
             </div>
             <div class="form-group"> 
-                <label for="category">Category</label>
+                <label for="category">{{ 'CATEGORY' | translate }}</label>
                 <select [(ngModel)]="book.category.id" name="category" class="form-control" id="category"  required>
                     <option *ngFor="let category of categories; trackBy: trackByCategory" 
                         [ngValue]="category.id"
@@ -24,15 +24,15 @@
             </div>
             
             <div class="form-group">
-                <label for="publisher">Publisher</label>
+                <label for="publisher">{{ 'PUBLISHER' | translate }}</label>
                 <input [(ngModel)]="book.publisher" name="publisher" type="text" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="price">Price</label>
+                <label for="price">{{ 'PRICE' | translate }}</label>
                 <input [(ngModel)]="book.price" name="price" type="number" class="form-control" />
             </div>
             <div class="buttonDiv">
-                <app-custom-button text="Save book" (click)="true"></app-custom-button>
+                <app-custom-button text="{{ 'SAVE_BOOK' | translate }}" (click)="true"></app-custom-button>
             </div>
         </div>
     </form>

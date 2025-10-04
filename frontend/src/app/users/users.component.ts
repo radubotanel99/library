@@ -16,12 +16,13 @@ import { PageTitleComponent } from "../ui.components/page-title/page-title.compo
 import { CustomButtonComponent } from "../ui.components/custom-button/custom-button.component";
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { ExcelService } from '../helpers/excel-service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, HttpClientModule, NzTableModule, NzDropDownModule, FormsModule, NzIconModule, SearchFilterComponent, PageTitleComponent, 
-    CustomButtonComponent, NzPopconfirmModule],
+    CustomButtonComponent, NzPopconfirmModule, TranslateModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
@@ -87,25 +88,25 @@ export class UsersComponent implements OnInit {
   }
   
   nameColumn: ColumnItem<IUser> = {
-    name: 'Name',
+    name: 'NAME',
     sortOrder: null,
     sortFn: (a: IUser | null, b: IUser | null) => (a?.name ?? '').localeCompare(b?.name ?? ''),
   }
 
   emailColumn: ColumnItem<IUser> = {
-    name: 'Email',
+    name: 'EMAIL',
     sortOrder: null,
     sortFn: (a: IUser | null, b: IUser| null) => (a?.email ?? '').localeCompare(b?.email ?? ''),
   }
 
   addressColumn: ColumnItem<IUser> = {
-    name: 'Address',
+    name: 'ADDRESS',
     sortOrder: null,
     sortFn: (a: IUser | null, b: IUser | null) => (a?.address ?? '').localeCompare(b?.address ?? ''),
   }
 
   phoneColumn: ColumnItem<IUser> = {
-    name: 'Phone Number',
+    name: 'PHONE_NUMBER',
   }
 
 }

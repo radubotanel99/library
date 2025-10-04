@@ -8,4 +8,7 @@ public interface GeneralConstants {
 
 	public static final String LANGUAGE_PARAM = "Language";
 	public static final int ENGLISH = 1;
+
+	public static final String ERRORS = "ERRORS.";
+	public static final String INVALID_NUMBER = ERRORS + "INVALID_NUMBER";
 }
