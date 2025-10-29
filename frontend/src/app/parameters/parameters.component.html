@@ -3,7 +3,7 @@
     <nz-modal [(nzVisible)]="isVisible" [nzOkText]="'SAVE' | translate" nzTitle="{{ 'PARAMETERS' | translate }}" (nzOnCancel)="handleCancel()" (nzOnOk)="saveParameters()">
         <ng-container *nzModalContent>
         <div class="form-group" *ngFor="let param of parameters; let i = index">
-            <label for="param-{{i}}">{{param.name}}</label>
+            <label for="param-{{i}}">{{getTranslatedParamName(param.name)}}</label>
 
             <div>
                 <nz-input-number 

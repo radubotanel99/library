@@ -63,7 +63,7 @@
                 <td>{{ rent.user.name }}</td>
                 <td>{{ rent.book.title }}</td>
                 <td>{{ rent.book.bookNumber}}</td>
-                <td [ngClass]="{'late-state': rent.state === 'LATE'}">{{ rent.state }}</td>
+                <td [ngClass]="{'late-state': rent.state === 'LATE'}">{{ getTranslatedState(rent.state) }}</td>
                 <td>{{ rent.createdAt | date:'dd-MM-yyyy'}}</td>
                 <td>{{ rent.finishedAt | date:'dd-MM-yyyy'}}</td>
                 <td>

@@ -96,4 +96,8 @@ export class ParametersComponent implements OnInit {
   setLangValue(langValue: string) {
     this.selectedLanguage = langValue;
   }
+
+  getTranslatedParamName(paramName: string): string {
+    return this.translate.instant('PARAMS.' + paramName);
+  }
 }

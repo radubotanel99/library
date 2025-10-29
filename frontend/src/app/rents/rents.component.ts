@@ -17,7 +17,7 @@ import { CustomButtonComponent } from "../ui.components/custom-button/custom-but
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ExcelService } from '../helpers/excel-service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ErrorHandlerService } from '../service/error-handler-service';
 
 @Component({
@@ -41,7 +41,7 @@ export class RentsComponent implements OnInit {
   searchNumberVisible = false;
   searchedText : string = '';
   
-  constructor(private rentService: RentService, private router: Router, private i18n: NzI18nService, private message: NzMessageService, private errorHandler: ErrorHandlerService) {
+  constructor(private rentService: RentService, private router: Router, private i18n: NzI18nService, private message: NzMessageService, private errorHandler: ErrorHandlerService, private translate: TranslateService) {
     this.rents = [];
   }
 
@@ -51,7 +51,13 @@ export class RentsComponent implements OnInit {
       this.rentsFiltered = [...this.rents];
       this.rentsToShow = [...this.rentsFiltered];
     })
-    this.i18n.setLocale(en_US); 
+    this.i18n.setLocale(en_US);
+    this.updateFilterOptions();
+    
+    // Listen for language changes
+    this.translate.onLangChange.subscribe(() => {
+      this.updateFilterOptions();
+    });
   }
 
   addRent(): void {
@@ -186,5 +192,22 @@ export class RentsComponent implements OnInit {
     name: 'Finished',
     sortOrder: null,
     sortFn: (a: IRent, b: IRent) => new Date(a.finishedAt!).getTime() - new Date(b.finishedAt!).getTime(),
+  }
+
+  getTranslatedState(state: string): string {
+    return this.translate.instant(state);
+  }
+
+  updateFilterOptions(): void {
+    this.stateColumn.listOfFilter = [
+      { text: this.translate.instant('ACTIVE'), value: 'ACTIVE', byDefault: true },
+      { text: this.translate.instant('LATE'), value: 'LATE', byDefault: true },
+      { text: this.translate.instant('FINISHED'), value: 'FINISHED' }
+    ];
+  }
+
+  // This method can be called when language changes
+  onLanguageChange(): void {
+    this.updateFilterOptions();
   }
 }
